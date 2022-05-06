@@ -1,2 +1,2 @@
 # SiumNotification
-Flutter App, send firebase notification to all Devices connette
+Flutter App, send firebase notification to all Devices connected
