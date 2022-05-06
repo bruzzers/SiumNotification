@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "530823389799",
+    "project_id": "siumnotification",
+    "storage_bucket": "siumnotification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530823389799:android:04cff8da7bf58ca32a2ac2",
+        "android_client_info": {
+          "package_name": "com.bruzzers.sium_notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530823389799-1jcbodlsa0l1empf5lo5bkpokdgq2c9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzuAmg9UnDsY4_lK0MPT99bJdJptNmp1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530823389799-1jcbodlsa0l1empf5lo5bkpokdgq2c9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
