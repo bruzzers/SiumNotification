@@ -44,11 +44,12 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 18.0),
                   child: SiumText(
                     "Se non sei ancora iscritto, iscriviti ora",
                     style: sium16RegularUnderline,
+                    onTap: () => context.read<LoginCubit>().goToRegistration(),
                   ),
                 ),
                 Padding(
