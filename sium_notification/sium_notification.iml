@@ -48,6 +48,11 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/permission_handler/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/Target Support Files/firebase_auth" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/Target Support Files/FirebaseAuth" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/Target Support Files/GTMSessionFetcher" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/FirebaseAuth" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/Pods/GTMSessionFetcher" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />

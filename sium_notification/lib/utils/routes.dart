@@ -34,7 +34,7 @@ class Routes{
     GetPage(
       name: registration,
       page: () => BlocProvider(
-        create: (_) => RegistrationCubit(),
+        create: (_) => RegistrationCubit(registrationRepo),
         child: RegistrationScreen(),
       ),
     ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SiumBaseScreen extends StatelessWidget{
   final Widget body;
   final String title;
-  final bool loading;
+  final bool? loading;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,7 @@ class SiumBaseScreen extends StatelessWidget{
       ),
       body: Stack(
         children: [
-          if(loading)
+          if(loading == true)
             const CircularProgressIndicator(),
           body
         ],
