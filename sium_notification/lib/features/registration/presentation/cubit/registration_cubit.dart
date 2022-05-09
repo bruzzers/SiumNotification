@@ -16,8 +16,10 @@ class RegistrationCubit extends BaseCubit<RegistrationState> {
   }
 
   Future<void> registerUser() async{
-    final res = await repository.registerUser(emailController.text, pswController.text);
+    emit(state.copyWith(isLoading: true));
+    final res = await repository.registerUser(emailController.text, pswController.text, "");
 
-    print(res.toString());
+
+    emit(state.copyWith(isLoading: false));
   }
 }

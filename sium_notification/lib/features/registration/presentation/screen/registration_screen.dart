@@ -1,5 +1,4 @@
 // coverage:ignore-file
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sium_notification/core/component/sium_base_screen.dart';

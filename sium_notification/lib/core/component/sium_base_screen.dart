@@ -14,7 +14,7 @@ class SiumBaseScreen extends StatelessWidget{
       body: Stack(
         children: [
           if(loading == true)
-            const CircularProgressIndicator(),
+            const Align(alignment: Alignment.center,child: CircularProgressIndicator()),
           body
         ],
       ),
