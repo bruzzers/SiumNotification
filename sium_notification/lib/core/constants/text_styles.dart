@@ -8,6 +8,19 @@ const TextStyle sium16Regular = TextStyle(
   fontSize: 16,
 );
 
+const TextStyle sium12Regular = TextStyle(
+  fontFamily: 'Source Code Pro',
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+);
+
+const TextStyle sium12RegularRed = TextStyle(
+  fontFamily: 'Source Code Pro',
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: Colors.red
+);
+
 const TextStyle sium16RegularUnderline = TextStyle(
   fontFamily: 'Source Code Pro',
   fontWeight: FontWeight.w400,

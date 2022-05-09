@@ -23,10 +23,12 @@ class RegistrationScreen extends StatelessWidget {
                     controller:
                         context.read<RegistrationCubit>().emailController,
                     decoration: InputDecoration(
-                      labelText: "Email",
+                      labelText: "Email*",
+                      errorText: state.errors?["email"],
+                      errorStyle: sium12RegularRed,
                       labelStyle: sium16Regular,
                       hintText: "Inserisci la tua mail",
-                      hintStyle: sium16Regular,
+                      hintStyle: sium12Regular,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
                       ),
@@ -36,12 +38,30 @@ class RegistrationScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: TextFormField(
                       controller:
+                      context.read<RegistrationCubit>().usernameController,
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                        labelStyle: sium16Regular,
+                        hintText: "Inserisci il tuo username (Facoltativo)",
+                        hintStyle: sium12Regular,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: TextFormField(
+                      controller:
                           context.read<RegistrationCubit>().pswController,
                       decoration: InputDecoration(
-                        labelText: "Password",
+                        errorText: state.errors?["psw"],
+                        errorStyle: sium12RegularRed,
+                        labelText: "Password*",
                         labelStyle: sium16Regular,
                         hintText: "Inserisci la tua password",
-                        hintStyle: sium16Regular,
+                        hintStyle: sium12Regular,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
@@ -53,8 +73,8 @@ class RegistrationScreen extends StatelessWidget {
                     child: SiumButton(
                       color: Colors.blue,
                       text: "Registrati",
-                      onTap: () =>
-                          context.read<RegistrationCubit>().registerUser(),
+                      onTap: state.ctaIsEnabled == true ? () =>
+                          context.read<RegistrationCubit>().registerUser() : null,
                     ),
                   )
                 ],

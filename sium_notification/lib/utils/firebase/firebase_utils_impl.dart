@@ -11,7 +11,8 @@ class FirebaseUtilsImpl extends FirebaseUtils{
       final res = await firebase.createUserWithEmailAndPassword(
           email: email ?? "", password: password ?? "");
       if(res.user != null){
-        return UserModel(email: res.user?.email, userName: res.user?.displayName);
+        await res.user?.updateDisplayName(username);
+        return UserModel(email: res.user?.email, userName: res.user?.displayName,);
       }else{
         return const UserModel(errorDetail: "Error");
       }
