@@ -22,4 +22,12 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     }
   }
 
+  @override
+  Future<UserCredential> login(String? email, String? password) async{
+    final firebase = FirebaseAuth.instance;
+    final res = await firebase.signInWithEmailAndPassword(email: email ?? "", password: password ?? "");
+
+    return res;
+  }
+
 }

@@ -54,7 +54,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 18.0),
-                  child: Align(alignment: Alignment.center, child: SiumButton(text: "Accedi", onTap: (){}, color: Colors.blue,),),
+                  child: Align(alignment: Alignment.center, child: SiumButton(text: "Accedi", onTap: () => context.read<LoginCubit>().signIn(), color: Colors.blue,),),
                 )
               ],
             ),

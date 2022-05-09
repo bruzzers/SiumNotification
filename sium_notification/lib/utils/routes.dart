@@ -27,7 +27,7 @@ class Routes{
     GetPage(
       name: login,
       page: () => BlocProvider(
-        create: (_) => LoginCubit(loginRepo),
+        create: (_) => LoginCubit(loginRepo, validator),
         child: LoginScreen(),
       ),
     ),

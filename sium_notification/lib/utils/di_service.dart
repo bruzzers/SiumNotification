@@ -11,7 +11,7 @@ import 'package:sium_notification/utils/validator/fields_validator_impl.dart';
 
 Future<void> init() async{
   Get.put<FirebaseUtils>(FirebaseUtilsImpl());
-  Get.put<LoginRepository>(LoginRepositoryImpl());
+  Get.put<LoginRepository>(LoginRepositoryImpl(firebaseUtils));
   Get.put<RegistrationRepository>(RegistrationRepositoryImpl(firebaseUtils));
   Get.put<FieldsValidator>(FieldsValidatorImpl());
 }
