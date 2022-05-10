@@ -50,4 +50,13 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     return firebaseAuth;
   }
 
+  @override
+  Future<bool> checkLoggedIn() async{
+    final firebase = FirebaseAuth.instance;
+
+    final user = firebase.currentUser;
+
+    return user != null;
+  }
+
 }

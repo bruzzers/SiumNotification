@@ -21,4 +21,11 @@ class LoginRepositoryImpl extends LoginRepository{
     return res;
   }
 
+  @override
+  Future<bool> isLoggedIn() async{
+    final res = await firebaseUtils.checkLoggedIn();
+
+    return res;
+  }
+
 }
