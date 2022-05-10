@@ -38,7 +38,7 @@ class LoginCubit extends BaseCubit<LoginState> {
           stickyAuth: true,
           biometricOnly: true,));
         if(authorized){
-          print("Sono loggato");
+          Get.offAndToNamed(Routes.main);
         }else{
           print("Sarei loggato ma non è stato possibile confrontare il biometrico");
         }
@@ -59,6 +59,10 @@ class LoginCubit extends BaseCubit<LoginState> {
     final res = await repository.login(emailController.text, pswController.text);
 
     print(res.user.toString());
+    if(res.user != null) {
+      sessionManager.saveUser(res);
+      Get.offAndToNamed(Routes.main);
+    }
     emit(state.copyWith(isLoading: false));
   }
 

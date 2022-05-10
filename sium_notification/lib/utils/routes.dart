@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sium_notification/features/login/presentation/cubit/login_cubit.dart';
 import 'package:sium_notification/features/login/presentation/screen/login_screen.dart';
+import 'package:sium_notification/features/main/presentation/cubit/main_cubit.dart';
+import 'package:sium_notification/features/main/presentation/screen/main_screen.dart';
 import 'package:sium_notification/features/registration/presentation/cubit/registration_cubit.dart';
 import 'package:sium_notification/features/registration/presentation/screen/registration_screen.dart';
 import 'package:sium_notification/features/splash/presentation/cubit/splash_cubit.dart';
@@ -15,6 +17,7 @@ class Routes{
   static const String splash = '/';
   static const String login = '/login';
   static const String registration = '/registration';
+  static const String main = '/main';
 
   static final List<GetPage> pages = [
     GetPage(
@@ -36,6 +39,13 @@ class Routes{
       page: () => BlocProvider(
         create: (_) => RegistrationCubit(registrationRepo, validator),
         child: RegistrationScreen(),
+      ),
+    ),
+    GetPage(
+      name: main,
+      page: () => BlocProvider(
+        create: (_) => MainCubit()..onInit(),
+        child: MainScreen(),
       ),
     ),
   ];
