@@ -21,9 +21,14 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   TextFormField(
                     controller: context.read<LoginCubit>().emailController,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       labelText: "Email",
+                      labelStyle: sium16Regular,
                       hintText: "Inserisci la tua mail",
+                      hintStyle: sium12Regular,
+                      errorText: state.errors?["email"],
+                      errorStyle: sium12RegularRed,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
                       ),
@@ -34,6 +39,8 @@ class LoginScreen extends StatelessWidget {
                     child: TextFormField(
                       controller: context.read<LoginCubit>().pswController,
                       obscureText: state.passwordObscured ?? true,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (string) => context.read<LoginCubit>().checkValuesAndLogin(),
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: Icon(state.passwordObscured != false
@@ -43,7 +50,11 @@ class LoginScreen extends StatelessWidget {
                               context.read<LoginCubit>().setVisibility(),
                         ),
                         labelText: "Password",
+                        labelStyle: sium16Regular,
                         hintText: "Inserisci la tua password",
+                        hintStyle: sium12Regular,
+                        errorText: state.errors?["psw"],
+                        errorStyle: sium12RegularRed,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
@@ -65,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: SiumButton(
                         text: "Accedi",
-                        onTap: () => context.read<LoginCubit>().signIn(),
+                        onTap: state.ctaIsEnabled == true ? () => context.read<LoginCubit>().signIn() : null,
                         color: Colors.blue,
                       ),
                     ),

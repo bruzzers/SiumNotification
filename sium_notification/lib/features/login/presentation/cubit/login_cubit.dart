@@ -14,14 +14,19 @@ class LoginCubit extends BaseCubit<LoginState> {
   final FieldsValidator fieldsValidator;
   final SessionManager sessionManager;
 
-  late TextEditingController? emailController;
-  late TextEditingController? pswController;
+  late TextEditingController emailController;
+  late TextEditingController pswController;
   LoginCubit(this.repository, this.fieldsValidator, this.sessionManager) : super(LoginState()){
-    emailController = TextEditingController();
-    pswController = TextEditingController();
+    emailController = TextEditingController()..addListener(() {
+      _validateEmail(emailController.text);
+    });
+    pswController = TextEditingController()..addListener(() {
+      _validatePsw(pswController.text);
+    });
   }
 
   void onInit() async{
+    emit(state.copyWith(errors: {}));
     final res = await repository.isLoggedIn();
 
     if(res){
@@ -51,7 +56,7 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   Future<void> signIn() async{
     emit(state.copyWith(isLoading: true));
-    final res = await repository.login(emailController?.text, pswController?.text);
+    final res = await repository.login(emailController.text, pswController.text);
 
     print(res.user.toString());
     emit(state.copyWith(isLoading: false));
@@ -65,5 +70,37 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   void setVisibility() {
     emit(state.copyWith(passwordObscured: !(state.passwordObscured ?? true)));
+  }
+
+  void _validateEmail(String? email){
+    Map<String, String?> map = {};
+    state.errors?.forEach((key, value) {
+      map.addAll({key: value});
+    });
+    if(fieldsValidator.isEmailValid(email ?? "")){
+      map.addAll({"email": null});
+    }else{
+      map.addAll({"email": "Email non valida"});
+    }
+    emit(state.copyWith(errors: map));
+  }
+
+  void _validatePsw(String? psw){
+    Map<String, String?> map = {};
+    state.errors?.forEach((key, value) {
+      map.addAll({key: value});
+    });
+    if(fieldsValidator.isPswValid(psw ?? "")){
+      map.addAll({"psw": null});
+    }else{
+      map.addAll({"psw": "Password non valida"});
+    }
+    emit(state.copyWith(errors: map));
+  }
+
+  Future<void> checkValuesAndLogin() async{
+    if(state.ctaIsEnabled){
+      await signIn();
+    }
   }
 }

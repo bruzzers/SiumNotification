@@ -22,6 +22,7 @@ class RegistrationScreen extends StatelessWidget {
                   TextFormField(
                     controller:
                         context.read<RegistrationCubit>().emailController,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       labelText: "Email*",
                       errorText: state.errors?["email"],
@@ -39,6 +40,7 @@ class RegistrationScreen extends StatelessWidget {
                     child: TextFormField(
                       controller:
                       context.read<RegistrationCubit>().usernameController,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         labelText: "Username",
                         labelStyle: sium16Regular,
@@ -55,6 +57,8 @@ class RegistrationScreen extends StatelessWidget {
                     child: TextFormField(
                       controller:
                           context.read<RegistrationCubit>().pswController,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (string) => context.read<RegistrationCubit>().checkValuesAndRegister(),
                       obscureText: state.passwordObscured ?? true,
                       decoration: InputDecoration(
                         suffixIcon: IconButton(

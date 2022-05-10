@@ -64,4 +64,10 @@ class RegistrationCubit extends BaseCubit<RegistrationState> {
   void setVisibility() {
     emit(state.copyWith(passwordObscured: !(state.passwordObscured ?? true)));
   }
+
+  Future<void> checkValuesAndRegister() async{
+    if(state.ctaIsEnabled){
+      await registerUser();
+    }
+  }
 }
