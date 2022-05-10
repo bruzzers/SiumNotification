@@ -1,7 +1,6 @@
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/state_management/base_cubit.dart';
 import 'package:sium_notification/features/login/data/login_repository.dart';
@@ -26,7 +25,21 @@ class LoginCubit extends BaseCubit<LoginState> {
     final res = await repository.isLoggedIn();
 
     if(res){
-      print("Sono loggato");
+      final canBio = await LocalAuthentication().canCheckBiometrics;
+      final bioList = await LocalAuthentication().getAvailableBiometrics();
+
+      if(canBio && bioList.isNotEmpty){
+        final authorized = await LocalAuthentication().authenticate(localizedReason: "Scan fingerprint", options: const AuthenticationOptions(useErrorDialogs: true,
+          stickyAuth: true,
+          biometricOnly: true,));
+        if(authorized){
+          print("Sono loggato");
+        }else{
+          print("Sarei loggato ma non è stato possibile confrontare il biometrico");
+        }
+      }else{
+        print("Impossibile controllare il biometrico");
+      }
     }else{
       print("Non sono loggato");
     }
