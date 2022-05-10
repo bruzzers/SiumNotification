@@ -1,5 +1,6 @@
 // coverage:ignore-file
 import 'package:flutter/material.dart';
+import 'package:sium_notification/core/component/sium_loading.dart';
 
 class SiumBaseScreen extends StatelessWidget{
   final Widget body;
@@ -13,9 +14,9 @@ class SiumBaseScreen extends StatelessWidget{
       ),
       body: Stack(
         children: [
+          body,
           if(loading == true)
-            const Align(alignment: Alignment.center,child: CircularProgressIndicator()),
-          body
+            Align(alignment: Alignment.center,child: SiumLoading()),
         ],
       ),
     );
