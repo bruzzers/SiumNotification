@@ -55,7 +55,14 @@ class RegistrationScreen extends StatelessWidget {
                     child: TextFormField(
                       controller:
                           context.read<RegistrationCubit>().pswController,
+                      obscureText: state.passwordObscured ?? true,
                       decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            state.passwordObscured != false ? Icons.visibility : Icons.visibility_off
+                          ),
+                          onPressed: () => context.read<RegistrationCubit>().setVisibility(),
+                        ),
                         errorText: state.errors?["psw"],
                         errorStyle: sium12RegularRed,
                         labelText: "Password*",

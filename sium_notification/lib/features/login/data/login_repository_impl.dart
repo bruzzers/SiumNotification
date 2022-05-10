@@ -14,4 +14,11 @@ class LoginRepositoryImpl extends LoginRepository{
     return res;
   }
 
+  @override
+  Future<UserCredential> loginWithGoogle() async{
+    final res = await firebaseUtils.signInWithGoogle();
+
+    return res;
+  }
+
 }

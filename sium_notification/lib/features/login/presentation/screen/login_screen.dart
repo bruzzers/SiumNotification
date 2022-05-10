@@ -35,7 +35,14 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextFormField(
                     controller: context.read<LoginCubit>().pswController,
+                    obscureText: state.passwordObscured ?? true,
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                            state.passwordObscured != false ? Icons.visibility : Icons.visibility_off
+                        ),
+                        onPressed: () => context.read<LoginCubit>().setVisibility(),
+                      ),
                       labelText: "Password",
                       hintText: "Inserisci la tua password",
                       border: OutlineInputBorder(
@@ -55,7 +62,11 @@ class LoginScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 18.0),
                   child: Align(alignment: Alignment.center, child: SiumButton(text: "Accedi", onTap: () => context.read<LoginCubit>().signIn(), color: Colors.blue,),),
-                )
+                ),
+                /*Padding(
+                  padding: const EdgeInsets.only(top: 18.0),
+                  child: Align(alignment: Alignment.center, child: SiumButton(text: "Accedi con Google", onTap: () => context.read<LoginCubit>().signInWithGoogle(), color: Colors.blue,),),
+                )*/
               ],
             ),
           ),

@@ -28,4 +28,14 @@ class LoginCubit extends BaseCubit<LoginState> {
 
     print(res.user.toString());
   }
+
+  Future<void> signInWithGoogle() async{
+    final res = await repository.loginWithGoogle();
+
+    print(res.user.toString());
+  }
+
+  void setVisibility() {
+    emit(state.copyWith(passwordObscured: !(state.passwordObscured ?? true)));
+  }
 }

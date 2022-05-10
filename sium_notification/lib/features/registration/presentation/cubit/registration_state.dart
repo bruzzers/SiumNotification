@@ -2,6 +2,7 @@ part of 'registration_cubit.dart';
 
 class RegistrationState extends BaseState{
   final Map<String, String?>? errors;
+  final bool? passwordObscured;
   final bool? isLoading;
 
   bool get ctaIsEnabled {
@@ -17,21 +18,22 @@ class RegistrationState extends BaseState{
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [isLoading, errors];
+  List<Object?> get props => [isLoading, errors, passwordObscured];
 
   RegistrationState({
     this.errors,
-    this.isLoading
+    this.isLoading,
+    this.passwordObscured
   });
 
   RegistrationState copyWith({
     Map<String, String?>? errors,
+    bool? passwordObscured,
     bool? isLoading,
-    bool? ctaIsEnabled,
   }) {
     return RegistrationState(
       errors: errors ?? this.errors,
+      passwordObscured: passwordObscured ?? this.passwordObscured,
       isLoading: isLoading ?? this.isLoading,
     );
   }

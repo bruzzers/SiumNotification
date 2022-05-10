@@ -324,6 +324,41 @@
             </list>
           </value>
         </entry>
+        <entry key="google_sign_in">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.3.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="google_sign_in_android">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_android-5.2.6/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="google_sign_in_ios">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_ios-5.2.6/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="google_sign_in_platform_interface">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_platform_interface-2.1.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="google_sign_in_web">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.10.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="hive">
           <value>
             <list>
@@ -482,6 +517,13 @@
           <value>
             <list>
               <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="quiver">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -677,6 +719,11 @@
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications_platform_interface-5.0.0/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/get-4.6.1/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/get_it-7.2.0/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.3.0/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_android-5.2.6/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_ios-5.2.6/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_platform_interface-2.1.2/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in_web-0.10.1/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/hive-2.1.0/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.4/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/lib" />
@@ -700,6 +747,7 @@
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/pretty_dio_logger-1.2.0-beta-1/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.4/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.2/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.13/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.11/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_ios-2.1.0/lib" />

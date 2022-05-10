@@ -25,7 +25,7 @@ class RegistrationCubit extends BaseCubit<RegistrationState> {
 
   Future<void> registerUser() async{
     emit(state.copyWith(isLoading: true));
-    final res = await repository.registerUser(emailController.text, pswController.text, "");
+    final res = await repository.registerUser(emailController.text, pswController.text, usernameController.text);
 
     if(res.errorDetail == null){
       Get.back();
@@ -59,5 +59,9 @@ class RegistrationCubit extends BaseCubit<RegistrationState> {
       map.addAll({"psw": "Password non valida"});
     }
     emit(state.copyWith(errors: map));
+  }
+
+  void setVisibility() {
+    emit(state.copyWith(passwordObscured: !(state.passwordObscured ?? true)));
   }
 }

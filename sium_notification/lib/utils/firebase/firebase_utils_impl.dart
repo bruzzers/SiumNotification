@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sium_notification/core/model/user_model.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
 
@@ -28,6 +29,25 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     final res = await firebase.signInWithEmailAndPassword(email: email ?? "", password: password ?? "");
 
     return res;
+  }
+
+  @override
+  Future<UserCredential> signInWithGoogle() async{
+    final firebase = FirebaseAuth.instance;
+    final googleSignIn = GoogleSignIn();
+
+    final res = await googleSignIn.signIn();
+
+    final auth = await res?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: auth?.accessToken,
+      idToken: auth?.idToken
+    );
+
+    final firebaseAuth = await firebase.signInWithCredential(credential);
+
+    return firebaseAuth;
   }
 
 }

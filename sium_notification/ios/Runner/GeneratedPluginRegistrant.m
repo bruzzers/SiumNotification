@@ -42,6 +42,12 @@
 @import flutter_local_notifications;
 #endif
 
+#if __has_include(<google_sign_in_ios/FLTGoogleSignInPlugin.h>)
+#import <google_sign_in_ios/FLTGoogleSignInPlugin.h>
+#else
+@import google_sign_in_ios;
+#endif
+
 #if __has_include(<permission_handler/PermissionHandlerPlugin.h>)
 #import <permission_handler/PermissionHandlerPlugin.h>
 #else
@@ -63,6 +69,7 @@
   [FLTFirebaseCrashlyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCrashlyticsPlugin"]];
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
   [FlutterLocalNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterLocalNotificationsPlugin"]];
+  [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [PermissionHandlerPlugin registerWithRegistrar:[registry registrarForPlugin:@"PermissionHandlerPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
 }
