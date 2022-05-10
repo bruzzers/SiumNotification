@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
+import 'package:sium_notification/utils/di_service.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
 
 class FirebaseUtilsImpl extends FirebaseUtils{
@@ -72,7 +73,7 @@ class FirebaseUtilsImpl extends FirebaseUtils{
           title: element.get("title"),
           sentBy: element.get("sentBy"),
           sentByUid: element.get("sentByUid"),
-          date: element.get("date"),
+          date: dateUtils.parseStringDate(element.get("date")),
           position: element.get("position"),
           floor: element.get("floor"),
           id: element.id
@@ -89,6 +90,13 @@ class FirebaseUtilsImpl extends FirebaseUtils{
       "titolo": "esempio",
       "inviato da": 192837
     });
+  }
+
+  @override
+  User? getCurrentUser() {
+    final firebase = FirebaseAuth.instance;
+
+    return firebase.currentUser;
   }
 
 }

@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(state.visibleName ?? ""),
                   ListView.builder(
                     itemBuilder: (context, index) {
                       return NotificationItem(model: state.notifications?[index]);

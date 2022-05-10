@@ -9,4 +9,5 @@ abstract class FirebaseUtils{
   Future<bool> checkLoggedIn();
   Future<List<NotificationModel>> getNotificationList();
   Future<void> addNotification();
+  User? getCurrentUser();
 }
