@@ -7,6 +7,7 @@ import 'package:sium_notification/features/profile/presentation/cubit/profile_cu
 import 'package:sium_notification/features/profile/presentation/screen/profile_screen.dart';
 import 'package:sium_notification/features/send_notification/presentation/cubit/send_notification_cubit.dart';
 import 'package:sium_notification/features/send_notification/presentation/screen/send_notification_screen.dart';
+import 'package:sium_notification/utils/di_service.dart';
 
 part 'main_state.dart';
 
@@ -17,7 +18,7 @@ class MainCubit extends BaseCubit<MainState> {
   void onInit() {
     emit(state.copyWith(index: 0));
     List<Widget> widgets = [BlocProvider(
-      create: (_) => HomeCubit(),
+      create: (_) => HomeCubit(homeRepo)..onInit(),
       child: HomeScreen(),
     ), BlocProvider(
       create: (_) => SendNotificationCubit(),

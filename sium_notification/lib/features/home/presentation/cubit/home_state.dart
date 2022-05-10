@@ -1,8 +1,23 @@
 part of 'home_cubit.dart';
 
-class HomeState extends BaseState{
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+class HomeState extends BaseState {
+  final List<NotificationModel>? notifications;
+  final bool? isLoading;
 
+  @override
+  List<Object?> get props => [notifications, isLoading];
+
+  HomeState({
+    this.isLoading, this.notifications
+  });
+
+  HomeState copyWith({
+    List<NotificationModel>? notifications,
+    bool? isLoading,
+  }) {
+    return HomeState(
+      notifications: notifications ?? this.notifications,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 }

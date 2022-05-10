@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
 
@@ -57,6 +59,36 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     final user = firebase.currentUser;
 
     return user != null;
+  }
+
+  @override
+  Future<List<NotificationModel>> getNotificationList() async{
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+    List<NotificationModel> list = [];
+    final collection = await firebase.get();
+    for (var element in collection.docs) {
+      list.add(
+        NotificationModel(
+          title: element.get("title"),
+          sentBy: element.get("sentBy"),
+          sentByUid: element.get("sentByUid"),
+          date: element.get("date"),
+          position: element.get("position"),
+          floor: element.get("floor"),
+          id: element.id
+        )
+      );
+    }
+    return list;
+  }
+
+  @override
+  Future<void> addNotification() async{
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+    await firebase.add({
+      "titolo": "esempio",
+      "inviato da": 192837
+    });
   }
 
 }
