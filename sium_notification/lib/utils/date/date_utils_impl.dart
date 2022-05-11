@@ -3,13 +3,17 @@ import 'package:sium_notification/utils/date/date_utils.dart';
 
 class DateUtilsImpl extends DateUtils{
   @override
-  String? parseStringDate(String? date) {
-    final parseDate = DateTime.tryParse(date ?? "");
-    if (parseDate != null) {
-      return DateFormat("dd/MM/yyyy, HH:mm").format(parseDate);
+  String? parseStringDate(DateTime? date) {
+    if (date != null) {
+      return DateFormat("dd/MM/yyyy, HH:mm").format(date);
     } else {
       return null;
     }
+  }
+
+  @override
+  DateTime parseStringToDateTime(String? date) {
+    return DateTime.parse(date ?? "");
   }
 
 }

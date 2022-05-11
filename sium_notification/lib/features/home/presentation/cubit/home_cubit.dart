@@ -5,6 +5,7 @@ import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/state_management/base_cubit.dart';
 import 'package:sium_notification/features/home/repository/home_repository.dart';
+import 'package:sium_notification/utils/di_service.dart';
 
 part 'home_state.dart';
 
@@ -19,6 +20,9 @@ class HomeCubit extends BaseCubit<HomeState> {
     final res = await repository.getNotifications();
 
     if(res.isNotEmpty){
+      res.sort((a, b) {
+        return dateUtils.parseStringDate(b.date)?.compareTo(dateUtils.parseStringDate(a.date) ?? "") ?? 0;
+      });
       emit(state.copyWith(notifications: res));
     }else{
       // showDialog

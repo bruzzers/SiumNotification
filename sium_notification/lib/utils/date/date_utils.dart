@@ -1,3 +1,4 @@
 abstract class DateUtils{
-  String? parseStringDate(String? date);
+  String? parseStringDate(DateTime? date);
+  DateTime parseStringToDateTime(String? date);
 }

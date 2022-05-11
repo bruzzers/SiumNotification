@@ -73,10 +73,12 @@ class FirebaseUtilsImpl extends FirebaseUtils{
           title: element.get("title"),
           sentBy: element.get("sentBy"),
           sentByUid: element.get("sentByUid"),
-          date: dateUtils.parseStringDate(element.get("date")),
+          date: dateUtils.parseStringToDateTime(element.get("date")),
           position: element.get("position"),
           floor: element.get("floor"),
-          id: element.id
+          id: element.id,
+          room: element.get("room"),
+          note: element.get("note")
         )
       );
     }
