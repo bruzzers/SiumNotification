@@ -5,8 +5,8 @@ import 'package:sium_notification/core/session_manager/session_manager.dart';
 class SessionManagerImpl extends SessionManager{
   User? _user;
   @override
-  void saveUser(UserCredential? user) {
-    _user = user?.user;
+  void saveUser(User? user) {
+    _user = user;
   }
 
   @override

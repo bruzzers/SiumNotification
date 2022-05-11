@@ -9,14 +9,12 @@ abstract class BaseCubit<S extends BaseState> extends Cubit<S>
   // final BaseRouter router;
 
   BaseCubit(S initialState /*, this.router*/) : super(initialState) {
-    if (WidgetsBinding.instance != null) {
-      WidgetsBinding.instance!.addObserver(this);
-    }
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   Future<void> close() async {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     return super.close();
   }
 }

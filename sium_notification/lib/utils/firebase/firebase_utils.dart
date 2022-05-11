@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
 
 abstract class FirebaseUtils{
@@ -6,4 +7,7 @@ abstract class FirebaseUtils{
   Future<UserCredential> login(String? email, String? password);
   Future<UserCredential> signInWithGoogle();
   Future<bool> checkLoggedIn();
+  Future<List<NotificationModel>> getNotificationList();
+  Future<void> addNotification();
+  User? getCurrentUser();
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
@@ -38,7 +39,8 @@ class LoginCubit extends BaseCubit<LoginState> {
           stickyAuth: true,
           biometricOnly: true,));
         if(authorized){
-          print("Sono loggato");
+          sessionManager.saveUser(repository.getCurrentUser());
+          Get.offAndToNamed(Routes.main);
         }else{
           print("Sarei loggato ma non è stato possibile confrontare il biometrico");
         }
@@ -59,6 +61,10 @@ class LoginCubit extends BaseCubit<LoginState> {
     final res = await repository.login(emailController.text, pswController.text);
 
     print(res.user.toString());
+    if(res.user != null) {
+      sessionManager.saveUser(res.user);
+      Get.offAndToNamed(Routes.main);
+    }
     emit(state.copyWith(isLoading: false));
   }
 

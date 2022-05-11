@@ -28,4 +28,9 @@ class LoginRepositoryImpl extends LoginRepository{
     return res;
   }
 
+  @override
+  User? getCurrentUser() {
+    return firebaseUtils.getCurrentUser();
+  }
+
 }
