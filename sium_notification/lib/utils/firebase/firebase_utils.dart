@@ -10,4 +10,5 @@ abstract class FirebaseUtils{
   Future<List<NotificationModel>> getNotificationList();
   Future<void> addNotification();
   User? getCurrentUser();
+  Future<bool> editEmail(String? email);
 }

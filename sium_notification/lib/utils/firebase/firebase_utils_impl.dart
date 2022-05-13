@@ -101,4 +101,16 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     return firebase.currentUser;
   }
 
+  @override
+  Future<bool> editEmail(String? email) async {
+    final firebase = FirebaseAuth.instance;
+
+    if(email?.isNotEmpty == true && email != null) {
+      await firebase.currentUser?.updateEmail(email);
+      return firebase.currentUser?.email == email;
+    }else{
+      return false;
+    }
+  }
+
 }
