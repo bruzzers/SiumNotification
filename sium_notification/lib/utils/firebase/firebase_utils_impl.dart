@@ -106,11 +106,54 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     final firebase = FirebaseAuth.instance;
 
     if(email?.isNotEmpty == true && email != null) {
-      await firebase.currentUser?.updateEmail(email);
-      return firebase.currentUser?.email == email;
+      try {
+        await firebase.currentUser?.updateEmail(email);
+        return firebase.currentUser?.email == email;
+      }catch (e){
+        return false;
+      }
     }else{
       return false;
     }
+  }
+
+  @override
+  Future<bool> editUsername(String? username) async{
+    final firebase = FirebaseAuth.instance;
+
+    if(username?.isNotEmpty == true && username != null){
+      try {
+        await firebase.currentUser?.updateDisplayName(username);
+        return firebase.currentUser?.displayName == username;
+      }catch (e) {
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> editPassword(String? password) async{
+    final firebase = FirebaseAuth.instance;
+
+    if(password?.isNotEmpty == true && password != null){
+      try{
+        await firebase.currentUser?.updatePassword(password);
+        return true;
+      }catch (e){
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  @override
+  Future<void> logout() async{
+    final firebase = FirebaseAuth.instance;
+
+    await firebase.signOut();
   }
 
 }

@@ -16,4 +16,19 @@ class ProfileRepositoryImpl extends ProfileRepository{
   Future<bool> updateEmail(String? email) async {
     return await firebaseUtils.editEmail(email);
   }
+
+  @override
+  Future<bool> updateUsername(String? username) async{
+    return await firebaseUtils.editUsername(username);
+  }
+
+  @override
+  Future<bool> updatePassword(String? password) async{
+    return await firebaseUtils.editPassword(password);
+  }
+
+  @override
+  Future<void> logout() async {
+    await firebaseUtils.logout();
+  }
 }

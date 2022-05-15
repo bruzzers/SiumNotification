@@ -31,22 +31,40 @@ class ProfileScreen extends StatelessWidget {
                                 .setEditUsername(
                                     !(state.isEditingUsername ?? false)),
                             isEditing: state.isEditingUsername ?? false,
+                            onSaveTap: () =>
+                                context.read<ProfileCubit>().updateUsername(),
+                            textFieldHint: "Inserisci il nuovo username",
+                            controller:
+                                context.read<ProfileCubit>().usernameController,
                           ),
                           ProfileTextItem(
+                            controller:
+                                context.read<ProfileCubit>().emailController,
+                            textFieldHint: "Inserisci la nuova email",
                             title: "Email",
                             value: state.user?.email ?? "",
                             onTap: () => context
                                 .read<ProfileCubit>()
-                                .setEditEmail(
-                                    !(state.isEditingEmail ?? false)),
+                                .setEditEmail(!(state.isEditingEmail ?? false)),
                             isEditing: state.isEditingEmail ?? false,
+                            onSaveTap: () =>
+                                context.read<ProfileCubit>().updateEmail(),
+                            textFieldError: state.emailError,
                           ),
                           ProfilePasswordItem(
                             onTap: () => context
                                 .read<ProfileCubit>()
                                 .setEditPassword(
                                     !(state.isEditingPsw ?? false)),
+                            onSaveTap: () => context.read<ProfileCubit>().updatePassword(),
                             isEditing: state.isEditingPsw ?? false,
+                            controller:
+                                context.read<ProfileCubit>().pswController,
+                            onIconTap: () => context
+                                .read<ProfileCubit>()
+                                .setPasswordVisibility(),
+                            passwordObscured: state.passwordObscured,
+                            error: state.pswError,
                           )
                         ],
                       ),
@@ -59,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                   child: SiumButton(
                     color: Colors.red,
                     text: "Logout",
-                    onTap: () {},
+                    onTap: () => context.read<ProfileCubit>().logout(),
                   ),
                 )
               ],

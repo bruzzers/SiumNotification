@@ -24,7 +24,7 @@ class MainCubit extends BaseCubit<MainState> {
       create: (_) => SendNotificationCubit(),
       child: SendNotificationScreen(),
     ), BlocProvider(
-      create: (_) => ProfileCubit(profileRepo)..onInit(),
+      create: (_) => ProfileCubit(profileRepo, validator)..onInit(),
       child: ProfileScreen(),
     ),];
     List<BottomNavigationBarItem> items = const [

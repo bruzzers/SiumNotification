@@ -11,4 +11,7 @@ abstract class FirebaseUtils{
   Future<void> addNotification();
   User? getCurrentUser();
   Future<bool> editEmail(String? email);
+  Future<bool> editUsername(String? username);
+  Future<bool> editPassword(String? password);
+  Future<void> logout();
 }
