@@ -1,8 +1,20 @@
 part of 'send_notification_cubit.dart';
 
 class SendNotificationState extends BaseState{
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  final bool? isLoading;
 
+  @override
+  List<Object?> get props => [isLoading];
+
+  SendNotificationState({
+    this.isLoading,
+  });
+
+  SendNotificationState copyWith({
+    bool? isLoading,
+  }) {
+    return SendNotificationState(
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 }

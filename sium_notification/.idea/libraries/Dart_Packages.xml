@@ -320,7 +320,7 @@
         <entry key="flutter_local_notifications">
           <value>
             <list>
-              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.5.0/lib" />
+              <option value="$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.5.3+1/lib" />
             </list>
           </value>
         </entry>
@@ -840,7 +840,7 @@
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_storage_web-3.2.15/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.3.3/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/lib" />
-      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.5.0/lib" />
+      <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.5.3+1/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications_linux-0.4.2/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications_platform_interface-5.0.0/lib" />
       <root url="file://$USER_HOME$/Developer/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5/lib" />
