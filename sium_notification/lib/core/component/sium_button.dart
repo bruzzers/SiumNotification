@@ -20,26 +20,23 @@ class SiumButton extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        type: MaterialType.transparency,
-        child: Ink(
-          width: buttonWidth,
-          height: 40,
-          decoration: BoxDecoration(
+    return Material(
+      type: MaterialType.transparency,
+      child: Ink(
+        width: buttonWidth,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: onTap == null ? Colors.grey : color,
+        ),
+        child: InkWell(
+          customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            color: onTap == null ? Colors.grey : color,
           ),
-          child: InkWell(
-            customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            onTap: onTap,
-            child: Center(
-              child: Text(text,
-                  style: textStyle ?? sium16RegularWhite),
-            ),
+          onTap: onTap,
+          child: Center(
+            child: Text(text,
+                style: textStyle ?? sium16RegularWhite),
           ),
         ),
       ),

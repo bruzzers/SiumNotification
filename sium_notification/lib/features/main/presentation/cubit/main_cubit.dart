@@ -24,13 +24,13 @@ class MainCubit extends BaseCubit<MainState> {
       create: (_) => SendNotificationCubit(),
       child: SendNotificationScreen(),
     ), BlocProvider(
-      create: (_) => ProfileCubit(),
+      create: (_) => ProfileCubit(profileRepo, validator)..onInit(),
       child: ProfileScreen(),
     ),];
     List<BottomNavigationBarItem> items = const [
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-      BottomNavigationBarItem(icon: Icon(Icons.add), label: "Aggiungi"),
-      BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), label: "Profilo"),
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home", tooltip: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.add), label: "Aggiungi", tooltip: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), label: "Profilo", tooltip: ''),
     ];
     controller = PageController();
 

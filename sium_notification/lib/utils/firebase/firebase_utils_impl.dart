@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
@@ -99,6 +102,74 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     final firebase = FirebaseAuth.instance;
 
     return firebase.currentUser;
+  }
+
+  @override
+  Future<bool> editEmail(String? email) async {
+    final firebase = FirebaseAuth.instance;
+
+    if(email?.isNotEmpty == true && email != null) {
+      try {
+        await firebase.currentUser?.updateEmail(email);
+        return firebase.currentUser?.email == email;
+      }catch (e){
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> editUsername(String? username) async{
+    final firebase = FirebaseAuth.instance;
+
+    if(username?.isNotEmpty == true && username != null){
+      try {
+        await firebase.currentUser?.updateDisplayName(username);
+        return firebase.currentUser?.displayName == username;
+      }catch (e) {
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> editPassword(String? password) async{
+    final firebase = FirebaseAuth.instance;
+
+    if(password?.isNotEmpty == true && password != null){
+      try{
+        await firebase.currentUser?.updatePassword(password);
+        return true;
+      }catch (e){
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  @override
+  Future<void> logout() async{
+    final firebase = FirebaseAuth.instance;
+
+    await firebase.signOut();
+  }
+
+  @override
+  Future<void> editProfileImage(File profileImage) async{
+    final storage = FirebaseStorage.instance;
+    final auth = FirebaseAuth.instance;
+    print(storage.toString());
+
+    final ref = storage.ref().child("profilePicture").child("${auth.currentUser?.email}/image");
+    await ref.putFile(profileImage);
+
+    final url = await ref.getDownloadURL();
+    await auth.currentUser?.updatePhotoURL(url);
   }
 
 }

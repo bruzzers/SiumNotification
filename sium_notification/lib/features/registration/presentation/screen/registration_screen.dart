@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sium_notification/core/component/sium_base_screen.dart';
 import 'package:sium_notification/core/component/sium_button.dart';
-import 'package:sium_notification/core/constants/text_styles.dart';
+import 'package:sium_notification/core/component/sium_text_field.dart';
 import 'package:sium_notification/features/registration/presentation/cubit/registration_cubit.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -19,64 +19,39 @@ class RegistrationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextFormField(
+                  SiumTextField(
                     controller:
                         context.read<RegistrationCubit>().emailController,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      labelText: "Email*",
-                      errorText: state.errors?["email"],
-                      errorStyle: sium12RegularRed,
-                      labelStyle: sium16Regular,
-                      hintText: "Inserisci la tua mail",
-                      hintStyle: sium12Regular,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
+                    label: "Email*",
+                    hint: "Inserisci la tua mail",
+                    isPassword: false,
+                    error: state.errors?["email"],
+                    action: TextInputAction.next,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SiumTextField(
+                      action: TextInputAction.next,
+                      controller:
+                          context.read<RegistrationCubit>().usernameController,
+                      label: "Username",
+                      hint: "Inserisci il tuo username (Facoltativo)",
+                      isPassword: false,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
-                      controller:
-                      context.read<RegistrationCubit>().usernameController,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                        labelText: "Username",
-                        labelStyle: sium16Regular,
-                        hintText: "Inserisci il tuo username (Facoltativo)",
-                        hintStyle: sium12Regular,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
-                      controller:
-                          context.read<RegistrationCubit>().pswController,
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmitted: (string) => context.read<RegistrationCubit>().checkValuesAndRegister(),
-                      obscureText: state.passwordObscured ?? true,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            state.passwordObscured != false ? Icons.visibility : Icons.visibility_off
-                          ),
-                          onPressed: () => context.read<RegistrationCubit>().setVisibility(),
-                        ),
-                        errorText: state.errors?["psw"],
-                        errorStyle: sium12RegularRed,
-                        labelText: "Password*",
-                        labelStyle: sium16Regular,
-                        hintText: "Inserisci la tua password",
-                        hintStyle: sium12Regular,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                      ),
+                    child: SiumTextField(
+                      controller: context.read<RegistrationCubit>().pswController,
+                      label: "Password*",
+                      hint: "Inserisci la tua password",
+                      isPassword: true,
+                      error: state.errors?["psw"],
+                      passwordObscured: state.passwordObscured,
+                      action: TextInputAction.done,
+                      onFieldSubmitted: (string) => context
+                          .read<RegistrationCubit>()
+                          .checkValuesAndRegister(),
                     ),
                   ),
                   Padding(
@@ -84,8 +59,10 @@ class RegistrationScreen extends StatelessWidget {
                     child: SiumButton(
                       color: Colors.blue,
                       text: "Registrati",
-                      onTap: state.ctaIsEnabled == true ? () =>
-                          context.read<RegistrationCubit>().registerUser() : null,
+                      onTap: state.ctaIsEnabled == true
+                          ? () =>
+                              context.read<RegistrationCubit>().registerUser()
+                          : null,
                     ),
                   )
                 ],
