@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
@@ -154,6 +157,19 @@ class FirebaseUtilsImpl extends FirebaseUtils{
     final firebase = FirebaseAuth.instance;
 
     await firebase.signOut();
+  }
+
+  @override
+  Future<void> editProfileImage(File profileImage) async{
+    final storage = FirebaseStorage.instance;
+    final auth = FirebaseAuth.instance;
+    print(storage.toString());
+
+    final ref = storage.ref().child("profilePicture").child("${auth.currentUser?.email}/image");
+    await ref.putFile(profileImage);
+
+    final url = await ref.getDownloadURL();
+    await auth.currentUser?.updatePhotoURL(url);
   }
 
 }

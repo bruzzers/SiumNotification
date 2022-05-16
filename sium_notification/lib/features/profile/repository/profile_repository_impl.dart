@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sium_notification/features/profile/repository/profile_repository.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
@@ -30,5 +32,10 @@ class ProfileRepositoryImpl extends ProfileRepository{
   @override
   Future<void> logout() async {
     await firebaseUtils.logout();
+  }
+
+  @override
+  Future<void> addImage(File profileImage) async{
+    await firebaseUtils.editProfileImage(profileImage);
   }
 }

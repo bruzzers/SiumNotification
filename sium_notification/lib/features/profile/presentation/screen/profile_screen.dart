@@ -1,8 +1,10 @@
 // coverage:ignore-file
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sium_notification/core/component/sium_base_screen.dart';
 import 'package:sium_notification/core/component/sium_button.dart';
+import 'package:sium_notification/features/profile/presentation/component/profile_image_item.dart';
 import 'package:sium_notification/features/profile/presentation/component/profile_password_item.dart';
 import 'package:sium_notification/features/profile/presentation/component/profile_text_item.dart';
 import 'package:sium_notification/features/profile/presentation/cubit/profile_cubit.dart';
@@ -23,46 +25,70 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: ProfileImageItem(
+                                imageUrl: state.user?.photoURL,
+                                onGalleryTap: () =>
+                                    context.read<ProfileCubit>()
+                                        .selectImage(ImageSource.gallery),
+                                onCameraTap: () =>
+                                    context.read<ProfileCubit>()
+                                        .selectImage(ImageSource.camera),
+                            ),
+                          ),
                           ProfileTextItem(
                             title: "Username",
                             value: state.user?.displayName ?? "",
-                            onTap: () => context
-                                .read<ProfileCubit>()
-                                .setEditUsername(
+                            onTap: () =>
+                                context
+                                    .read<ProfileCubit>()
+                                    .setEditUsername(
                                     !(state.isEditingUsername ?? false)),
                             isEditing: state.isEditingUsername ?? false,
                             onSaveTap: () =>
                                 context.read<ProfileCubit>().updateUsername(),
                             textFieldHint: "Inserisci il nuovo username",
                             controller:
-                                context.read<ProfileCubit>().usernameController,
+                            context
+                                .read<ProfileCubit>()
+                                .usernameController,
                           ),
                           ProfileTextItem(
                             controller:
-                                context.read<ProfileCubit>().emailController,
+                            context
+                                .read<ProfileCubit>()
+                                .emailController,
                             textFieldHint: "Inserisci la nuova email",
                             title: "Email",
                             value: state.user?.email ?? "",
-                            onTap: () => context
-                                .read<ProfileCubit>()
-                                .setEditEmail(!(state.isEditingEmail ?? false)),
+                            onTap: () =>
+                                context
+                                    .read<ProfileCubit>()
+                                    .setEditEmail(
+                                    !(state.isEditingEmail ?? false)),
                             isEditing: state.isEditingEmail ?? false,
                             onSaveTap: () =>
                                 context.read<ProfileCubit>().updateEmail(),
                             textFieldError: state.emailError,
                           ),
                           ProfilePasswordItem(
-                            onTap: () => context
-                                .read<ProfileCubit>()
-                                .setEditPassword(
+                            onTap: () =>
+                                context
+                                    .read<ProfileCubit>()
+                                    .setEditPassword(
                                     !(state.isEditingPsw ?? false)),
-                            onSaveTap: () => context.read<ProfileCubit>().updatePassword(),
+                            onSaveTap: () =>
+                                context.read<ProfileCubit>().updatePassword(),
                             isEditing: state.isEditingPsw ?? false,
                             controller:
-                                context.read<ProfileCubit>().pswController,
-                            onIconTap: () => context
+                            context
                                 .read<ProfileCubit>()
-                                .setPasswordVisibility(),
+                                .pswController,
+                            onIconTap: () =>
+                                context
+                                    .read<ProfileCubit>()
+                                    .setPasswordVisibility(),
                             passwordObscured: state.passwordObscured,
                             error: state.pswError,
                           )

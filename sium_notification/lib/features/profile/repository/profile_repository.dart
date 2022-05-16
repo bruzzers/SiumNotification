@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class ProfileRepository{
@@ -6,4 +8,5 @@ abstract class ProfileRepository{
   Future<bool> updateUsername(String? username);
   Future<bool> updatePassword(String? password);
   Future<void> logout();
+  Future<void> addImage(File profileImage);
 }

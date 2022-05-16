@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
@@ -14,4 +16,5 @@ abstract class FirebaseUtils{
   Future<bool> editUsername(String? username);
   Future<bool> editPassword(String? password);
   Future<void> logout();
+  Future<void> editProfileImage(File profileImage);
 }

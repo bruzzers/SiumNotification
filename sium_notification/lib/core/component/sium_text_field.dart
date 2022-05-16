@@ -20,7 +20,7 @@ class SiumTextField extends StatelessWidget{
       controller: controller,
       textInputAction: action,
       onFieldSubmitted: onFieldSubmitted,
-      obscureText: passwordObscured ?? false,
+      obscureText: isPassword ? passwordObscured ?? true : false,
       decoration: InputDecoration(
         labelText: label,
         errorText: error,
