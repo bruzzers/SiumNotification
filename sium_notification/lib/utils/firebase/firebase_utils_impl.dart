@@ -113,8 +113,17 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "note": model.note ?? ""
     });
 
+    //await FirebaseMessaging.instance.unsubscribeFromTopic("all");
     final _dio = Dio();
     _dio.interceptors.addAll([PrettyDioLogger(requestHeader: true)]);
+    String body;
+    body = (model.position ?? "") + " ";
+    if(model.floor?.isNotEmpty == true){
+      body = body + "Piano: ${model.floor} ";
+    }if(model.room?.isNotEmpty == true){
+      body = body + "Stanza: ${model.room} ";
+    }
+    body = body + "Inviato da ${model.sentBy}";
     final res = await _dio.request(
       "https://fcm.googleapis.com/fcm/send",
       options: Options(
@@ -129,7 +138,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
         "to": "/topics/all",
         "notification": {
           "title": model.title,
-          "body": model.note
+          "body": body
         }
       }
     );
@@ -139,6 +148,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     }else{
       print("ERROR");
     }
+    await registerToAllTopic();
   }
 
   @override

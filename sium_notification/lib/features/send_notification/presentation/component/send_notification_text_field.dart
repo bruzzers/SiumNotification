@@ -20,6 +20,7 @@ class SendNotificationTextField extends StatelessWidget {
         isPassword: false,
         action: isLast ? TextInputAction.done : TextInputAction.next,
         onFieldSubmitted: onFieldSubmitted,
+        isCapitalized: true,
       ),
     );
   }

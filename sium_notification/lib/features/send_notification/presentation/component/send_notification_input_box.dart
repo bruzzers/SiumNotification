@@ -19,6 +19,8 @@ class SendNotificationInputBox extends StatelessWidget{
           textInputAction: TextInputAction.done,
           onFieldSubmitted: onFieldSubmitted,
           textAlignVertical: TextAlignVertical.top,
+          textCapitalization: TextCapitalization.sentences,
+          autocorrect: false,
           decoration: InputDecoration(
             labelText: "Note",
             labelStyle: sium16Regular,

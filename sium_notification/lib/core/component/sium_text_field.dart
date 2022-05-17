@@ -13,6 +13,7 @@ class SiumTextField extends StatelessWidget{
   final VoidCallback? onIconTap;
   final TextInputAction action;
   final Function(String value)? onFieldSubmitted;
+  final bool? isCapitalized;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,8 @@ class SiumTextField extends StatelessWidget{
       controller: controller,
       textInputAction: action,
       onFieldSubmitted: onFieldSubmitted,
+      textCapitalization: isCapitalized == true? TextCapitalization.sentences : TextCapitalization.none,
+      autocorrect: false,
       obscureText: isPassword ? passwordObscured ?? true : false,
       decoration: InputDecoration(
         labelText: label,
@@ -51,5 +54,6 @@ class SiumTextField extends StatelessWidget{
     this.onIconTap,
     required this.action,
     this.onFieldSubmitted,
+    this.isCapitalized,
   });
 }
