@@ -11,6 +11,8 @@ import 'package:sium_notification/features/profile/repository/profile_repository
 import 'package:sium_notification/features/profile/repository/profile_repository_impl.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository_impl.dart';
+import 'package:sium_notification/features/send_notification/repository/send_notification_repository.dart';
+import 'package:sium_notification/features/send_notification/repository/send_notification_repository_impl.dart';
 import 'package:sium_notification/utils/date/date_utils.dart';
 import 'package:sium_notification/utils/date/date_utils_impl.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
@@ -26,6 +28,7 @@ Future<void> init() async{
   Get.put<SessionManager>(SessionManagerImpl());
   Get.put<HomeRepository>(HomeRepositoryImpl(firebaseUtils));
   Get.put<ProfileRepository>(ProfileRepositoryImpl(firebaseUtils));
+  Get.put<SendNotificationRepository>(SendNotificationRepositoryImpl(firebaseUtils));
   Get.put<DateUtils>(DateUtilsImpl());
   Get.put<LocalNotificationService>(LocalNotificationServiceImpl());
 }
@@ -37,5 +40,6 @@ FieldsValidator get validator => Get.find<FieldsValidator>();
 SessionManager get sessionManager => Get.find<SessionManager>();
 HomeRepository get homeRepo => Get.find<HomeRepository>();
 ProfileRepository get profileRepo => Get.find<ProfileRepository>();
+SendNotificationRepository get sendNotificationRepo => Get.find<SendNotificationRepository>();
 DateUtils get dateUtils => Get.find<DateUtils>();
 LocalNotificationService get localNotificationService => Get.find<LocalNotificationService>();

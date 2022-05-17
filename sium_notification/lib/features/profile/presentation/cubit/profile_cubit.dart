@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/state_management/base_cubit.dart';
 import 'package:sium_notification/utils/di_service.dart';
 import 'package:sium_notification/utils/routes.dart';
@@ -17,11 +18,13 @@ part 'profile_state.dart';
 class ProfileCubit extends BaseCubit<ProfileState> {
   final ProfileRepository repository;
   final FieldsValidator fieldsValidator;
+  final SessionManager sessionManager;
+
   late TextEditingController emailController;
   late TextEditingController usernameController;
   late TextEditingController pswController;
 
-  ProfileCubit(this.repository, this.fieldsValidator) : super(ProfileState()) {
+  ProfileCubit(this.repository, this.fieldsValidator, this.sessionManager) : super(ProfileState()) {
     emailController = TextEditingController();
     usernameController = TextEditingController();
     pswController = TextEditingController();
@@ -62,6 +65,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
       final res = await repository.updateEmail(emailController.text);
       if (res) {
         emit(state.copyWith(isEditingEmail: false));
+        await sessionManager.updateEmail(emailController.text);
         await onInit();
       } else {
         Get.snackbar(
@@ -99,6 +103,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
 
       if (res) {
         emit(state.copyWith(isEditingPsw: false));
+        await sessionManager.updatePsw(pswController.text);
         await onInit();
       } else {
         Get.snackbar("Errore",
@@ -113,6 +118,7 @@ class ProfileCubit extends BaseCubit<ProfileState> {
 
   Future<void> logout() async {
     await repository.logout();
+    await sessionManager.logout();
 
     Get.offAllNamed(Routes.login);
   }

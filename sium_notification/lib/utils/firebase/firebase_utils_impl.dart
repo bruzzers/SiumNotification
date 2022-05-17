@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
@@ -33,6 +35,14 @@ class FirebaseUtilsImpl extends FirebaseUtils{
   Future<UserCredential> login(String? email, String? password) async{
     final firebase = FirebaseAuth.instance;
     final res = await firebase.signInWithEmailAndPassword(email: email ?? "", password: password ?? "");
+
+    return res;
+  }
+
+  @override
+  Future<UserCredential> loginWithCredential(AuthCredential credential) async{
+    final firebase = FirebaseAuth.instance;
+    final res = await firebase.signInWithCredential(credential);
 
     return res;
   }
@@ -89,12 +99,20 @@ class FirebaseUtilsImpl extends FirebaseUtils{
   }
 
   @override
-  Future<void> addNotification() async{
+  Future<void> sendNotification(NotificationModel model) async{
     final firebase = FirebaseFirestore.instance.collection("notifiche");
     await firebase.add({
-      "titolo": "esempio",
-      "inviato da": 192837
+      "titolo": model.title,
+      "sentBy": model.sentBy,
+      "sentByUid": model.sentByUid,
+      "date": model.date,
+      "position": model.position,
+      "floor": model.floor,
+      "room": model.room,
+      "note": model.note
     });
+    
+    final _dio = Dio();
   }
 
   @override
@@ -170,6 +188,13 @@ class FirebaseUtilsImpl extends FirebaseUtils{
 
     final url = await ref.getDownloadURL();
     await auth.currentUser?.updatePhotoURL(url);
+  }
+
+  @override
+  Future<void> registerToAllTopic() async{
+    final messaging = FirebaseMessaging.instance;
+
+    await messaging.subscribeToTopic("all");
   }
 
 }
