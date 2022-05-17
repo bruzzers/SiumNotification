@@ -21,7 +21,7 @@ class MainCubit extends BaseCubit<MainState> {
       create: (_) => HomeCubit(homeRepo, sessionManager)..onInit(),
       child: HomeScreen(),
     ), BlocProvider(
-      create: (_) => SendNotificationCubit(sendNotificationRepo)..onInit(),
+      create: (_) => SendNotificationCubit(sendNotificationRepo, dateUtils)..onInit(),
       child: SendNotificationScreen(),
     ), BlocProvider(
       create: (_) => ProfileCubit(profileRepo, validator, sessionManager)..onInit(),

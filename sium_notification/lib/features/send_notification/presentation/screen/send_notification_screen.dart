@@ -78,7 +78,7 @@ class SendNotificationScreen extends StatelessWidget {
                     SiumButton(
                       color: Colors.blue,
                       text: "Invia notifica",
-                      onTap: state.ctaActive == true ? () {} : null,
+                      onTap: state.ctaActive == true ? () => context.read<SendNotificationCubit>().sendNotification() : null,
                     )
                   ],
                 ),

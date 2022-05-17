@@ -29,7 +29,7 @@ Future<void> init() async{
   Get.put<HomeRepository>(HomeRepositoryImpl(firebaseUtils));
   Get.put<ProfileRepository>(ProfileRepositoryImpl(firebaseUtils));
   Get.put<SendNotificationRepository>(SendNotificationRepositoryImpl(firebaseUtils));
-  Get.put<DateUtils>(DateUtilsImpl());
+  Get.put<SiumDateUtils>(DateUtilsImpl());
   Get.put<LocalNotificationService>(LocalNotificationServiceImpl());
 }
 
@@ -41,5 +41,5 @@ SessionManager get sessionManager => Get.find<SessionManager>();
 HomeRepository get homeRepo => Get.find<HomeRepository>();
 ProfileRepository get profileRepo => Get.find<ProfileRepository>();
 SendNotificationRepository get sendNotificationRepo => Get.find<SendNotificationRepository>();
-DateUtils get dateUtils => Get.find<DateUtils>();
+SiumDateUtils get dateUtils => Get.find<SiumDateUtils>();
 LocalNotificationService get localNotificationService => Get.find<LocalNotificationService>();
