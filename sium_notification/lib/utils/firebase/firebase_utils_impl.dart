@@ -119,7 +119,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "imageUrl": model.imageUrl ?? ""
     });
 
-    //await FirebaseMessaging.instance.unsubscribeFromTopic("all");
+    await FirebaseMessaging.instance.unsubscribeFromTopic("all");
     final _dio = Dio();
     _dio.interceptors.addAll([PrettyDioLogger(requestHeader: true)]);
     String body;
@@ -240,5 +240,16 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     final messaging = FirebaseMessaging.instance;
 
     await messaging.subscribeToTopic("all");
+  }
+
+  @override
+  Future<void> addNotificationComment(String? comment, String? id) async{
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+
+    final collection = await firebase.get();
+    final x = collection.docs.firstWhere((element) => element.id == "12GznCAxZvwYojXBnUlX");
+    final y = x.reference.update({
+      "ciao": "ciao"
+    });
   }
 }

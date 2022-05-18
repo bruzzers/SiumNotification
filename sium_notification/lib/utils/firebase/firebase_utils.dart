@@ -19,4 +19,5 @@ abstract class FirebaseUtils{
   Future<void> editProfileImage(File profileImage);
   Future<void> sendNotification(NotificationModel model);
   Future<void> registerToAllTopic();
+  Future<void> addNotificationComment(String? comment, String? id);
 }

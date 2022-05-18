@@ -55,7 +55,7 @@ class Routes{
     GetPage(
       name: notificationDetail,
       page: () => BlocProvider(
-        create: (_) => NotificationDetailCubit()..onInit(Get.arguments),
+        create: (_) => NotificationDetailCubit(notificationDetailRepo)..onInit(Get.arguments),
         child: NotificationDetailScreen(),
       ),
     ),
