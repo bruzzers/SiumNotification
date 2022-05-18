@@ -33,4 +33,9 @@ class LoginRepositoryImpl extends LoginRepository{
     return firebaseUtils.getCurrentUser();
   }
 
+  @override
+  Future<UserCredential> loginWithCredential(AuthCredential credential) async {
+    return await firebaseUtils.loginWithCredential(credential);
+  }
+
 }

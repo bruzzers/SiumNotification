@@ -13,4 +13,9 @@ class HomeRepositoryImpl extends HomeRepository{
 
     return res;
   }
+
+  @override
+  Future<void> registerToTopic() async{
+    await firebaseUtils.registerToAllTopic();
+  }
 }

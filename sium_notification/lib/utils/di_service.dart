@@ -1,5 +1,6 @@
 // coverage:ignore-file
 import 'package:get/get.dart';
+import 'package:sium_notification/core/service/local_notification_service.dart';
 import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/session_manager/session_manager_impl.dart';
 import 'package:sium_notification/features/home/repository/home_repository.dart';
@@ -10,6 +11,8 @@ import 'package:sium_notification/features/profile/repository/profile_repository
 import 'package:sium_notification/features/profile/repository/profile_repository_impl.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository_impl.dart';
+import 'package:sium_notification/features/send_notification/repository/send_notification_repository.dart';
+import 'package:sium_notification/features/send_notification/repository/send_notification_repository_impl.dart';
 import 'package:sium_notification/utils/date/date_utils.dart';
 import 'package:sium_notification/utils/date/date_utils_impl.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
@@ -25,7 +28,9 @@ Future<void> init() async{
   Get.put<SessionManager>(SessionManagerImpl());
   Get.put<HomeRepository>(HomeRepositoryImpl(firebaseUtils));
   Get.put<ProfileRepository>(ProfileRepositoryImpl(firebaseUtils));
-  Get.put<DateUtils>(DateUtilsImpl());
+  Get.put<SendNotificationRepository>(SendNotificationRepositoryImpl(firebaseUtils));
+  Get.put<SiumDateUtils>(DateUtilsImpl());
+  Get.put<LocalNotificationService>(LocalNotificationServiceImpl());
 }
 
 FirebaseUtils get firebaseUtils => Get.find<FirebaseUtils>();
@@ -35,4 +40,6 @@ FieldsValidator get validator => Get.find<FieldsValidator>();
 SessionManager get sessionManager => Get.find<SessionManager>();
 HomeRepository get homeRepo => Get.find<HomeRepository>();
 ProfileRepository get profileRepo => Get.find<ProfileRepository>();
-DateUtils get dateUtils => Get.find<DateUtils>();
+SendNotificationRepository get sendNotificationRepo => Get.find<SendNotificationRepository>();
+SiumDateUtils get dateUtils => Get.find<SiumDateUtils>();
+LocalNotificationService get localNotificationService => Get.find<LocalNotificationService>();

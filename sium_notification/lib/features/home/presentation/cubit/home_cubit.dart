@@ -17,6 +17,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   Future<void> onInit() async{
     emit(state.copyWith(isLoading: true));
     emit(state.copyWith(visibleName: sessionManager.getUser()?.displayName ?? sessionManager.getUser()?.email));
+    await repository.registerToTopic();
     final res = await repository.getNotifications();
 
     if(res.isNotEmpty){

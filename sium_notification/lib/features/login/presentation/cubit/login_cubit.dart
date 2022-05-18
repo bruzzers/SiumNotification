@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:android_power_manager/android_power_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
@@ -28,24 +28,40 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   void onInit() async{
     emit(state.copyWith(errors: {}));
+    await AndroidPowerManager.requestIgnoreBatteryOptimizations();
+    final p = await AndroidPowerManager.isIgnoringBatteryOptimizations;
+    print("Battery status $p");
     final res = await repository.isLoggedIn();
 
-    if(res){
+    if(res) {
       final canBio = await LocalAuthentication().canCheckBiometrics;
       final bioList = await LocalAuthentication().getAvailableBiometrics();
 
-      if(canBio && bioList.isNotEmpty){
-        final authorized = await LocalAuthentication().authenticate(localizedReason: "Scan fingerprint", options: const AuthenticationOptions(useErrorDialogs: true,
-          stickyAuth: true,
-          biometricOnly: true,));
-        if(authorized){
-          sessionManager.saveUser(repository.getCurrentUser());
-          Get.offAndToNamed(Routes.main);
-        }else{
-          print("Sarei loggato ma non è stato possibile confrontare il biometrico");
+      final credential = await sessionManager.getCredential();
+      if (credential?.email != null && credential?.password != null) {
+        if (canBio && bioList.isNotEmpty) {
+          final authorized = await LocalAuthentication().authenticate(
+              localizedReason: "Scan fingerprint",
+              options: const AuthenticationOptions(useErrorDialogs: true,
+                stickyAuth: true,
+                biometricOnly: true,));
+          if (authorized) {
+            final res = await repository.login(credential?.email, credential?.password);
+            if(res.user?.emailVerified == true) {
+              sessionManager.saveUser(repository.getCurrentUser());
+              Get.offAndToNamed(Routes.main);
+            }else{
+              Get.snackbar("Impossibile effettuare l'accesso", "Conferma la registrazione sulla tua mail");
+            }
+          } else {
+            print(
+                "Sarei loggato ma non è stato possibile confrontare il biometrico");
+          }
+        } else {
+          print("Impossibile controllare il biometrico");
         }
-      }else{
-        print("Impossibile controllare il biometrico");
+      } else {
+        print("Non sono loggato");
       }
     }else{
       print("Non sono loggato");
@@ -62,8 +78,13 @@ class LoginCubit extends BaseCubit<LoginState> {
 
     print(res.user.toString());
     if(res.user != null) {
-      sessionManager.saveUser(res.user);
-      Get.offAndToNamed(Routes.main);
+      if(res.user?.emailVerified == true) {
+        sessionManager.saveUser(res.user);
+        sessionManager.saveCredential(emailController.text, pswController.text);
+        Get.offAndToNamed(Routes.main);
+      }else{
+        Get.snackbar("Impossibile effettuare l'accesso", "Conferma la registrazione sulla tua mail");
+      }
     }
     emit(state.copyWith(isLoading: false));
   }

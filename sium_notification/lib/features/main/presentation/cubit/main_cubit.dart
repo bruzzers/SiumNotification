@@ -21,10 +21,10 @@ class MainCubit extends BaseCubit<MainState> {
       create: (_) => HomeCubit(homeRepo, sessionManager)..onInit(),
       child: HomeScreen(),
     ), BlocProvider(
-      create: (_) => SendNotificationCubit(),
+      create: (_) => SendNotificationCubit(sendNotificationRepo, dateUtils)..onInit(),
       child: SendNotificationScreen(),
     ), BlocProvider(
-      create: (_) => ProfileCubit(profileRepo, validator)..onInit(),
+      create: (_) => ProfileCubit(profileRepo, validator, sessionManager)..onInit(),
       child: ProfileScreen(),
     ),];
     List<BottomNavigationBarItem> items = const [
