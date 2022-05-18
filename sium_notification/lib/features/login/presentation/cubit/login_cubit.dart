@@ -43,9 +43,13 @@ class LoginCubit extends BaseCubit<LoginState> {
                 stickyAuth: true,
                 biometricOnly: true,));
           if (authorized) {
-            await repository.login(credential?.email, credential?.password);
-            sessionManager.saveUser(repository.getCurrentUser());
-            Get.offAndToNamed(Routes.main);
+            final res = await repository.login(credential?.email, credential?.password);
+            if(res.user?.emailVerified == true) {
+              sessionManager.saveUser(repository.getCurrentUser());
+              Get.offAndToNamed(Routes.main);
+            }else{
+              Get.snackbar("Impossibile effettuare l'accesso", "Conferma la registrazione sulla tua mail");
+            }
           } else {
             print(
                 "Sarei loggato ma non è stato possibile confrontare il biometrico");
@@ -71,9 +75,13 @@ class LoginCubit extends BaseCubit<LoginState> {
 
     print(res.user.toString());
     if(res.user != null) {
-      sessionManager.saveUser(res.user);
-      sessionManager.saveCredential(emailController.text, pswController.text);
-      Get.offAndToNamed(Routes.main);
+      if(res.user?.emailVerified == true) {
+        sessionManager.saveUser(res.user);
+        sessionManager.saveCredential(emailController.text, pswController.text);
+        Get.offAndToNamed(Routes.main);
+      }else{
+        Get.snackbar("Impossibile effettuare l'accesso", "Conferma la registrazione sulla tua mail");
+      }
     }
     emit(state.copyWith(isLoading: false));
   }
