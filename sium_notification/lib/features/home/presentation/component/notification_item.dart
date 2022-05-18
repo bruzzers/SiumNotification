@@ -8,56 +8,60 @@ import 'notification_profile_image.dart';
 
 class NotificationItem extends StatelessWidget{
   final NotificationModel? model;
+  final VoidCallback onItemTap;
 
-  const NotificationItem({required this.model});
+  const NotificationItem({required this.model, required this.onItemTap});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: Colors.blue.shade50,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8.0, left: 18.0, right: 18.0, bottom: 12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(model?.title ?? "", style: sium18Bold,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(model?.position ?? "", style: sium14Regular,)),
-                      if(model?.floor?.isNotEmpty == true)
-                      Expanded(child: Text(
-                        "Piano: ${model?.floor ?? ""}", style: sium14Regular,)),
-                    ],
+    return InkWell(
+      onTap: onItemTap,
+      child: Column(
+        children: [
+          Container(
+            color: Colors.blue.shade50,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 18.0, right: 18.0, bottom: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(model?.title ?? "", style: sium18Bold,),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(model?.position ?? "", style: sium14Regular,)),
+                        if(model?.floor?.isNotEmpty == true)
+                        Expanded(child: Text(
+                          "Piano: ${model?.floor ?? ""}", style: sium14Regular,)),
+                      ],
+                    ),
                   ),
-                ),
-                if(model?.room?.isNotEmpty == true)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text("Stanza: ${model?.room}", style: sium14Regular,),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text("Inviato da: ${model?.sentBy ?? ""}", style: sium14Regular,)),
-                      NotificationProfileImage(imageUrl: model?.imageUrl,)
-                    ],
+                  if(model?.room?.isNotEmpty == true)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text("Stanza: ${model?.room}", style: sium14Regular,),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(dateUtils.parseStringDate(model?.date) ?? "", style: sium12Regular,),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text("Inviato da: ${model?.sentBy ?? ""}", style: sium14Regular,)),
+                        NotificationProfileImage(imageUrl: model?.imageUrl,)
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(dateUtils.parseStringDate(model?.date) ?? "", style: sium12Regular,),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        const Divider(color: Colors.grey, height: 1, thickness: 1,)
-      ],
+          const Divider(color: Colors.grey, height: 1, thickness: 1,)
+        ],
+      ),
     );
   }
 

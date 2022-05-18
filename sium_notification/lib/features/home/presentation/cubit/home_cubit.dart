@@ -6,6 +6,7 @@ import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/state_management/base_cubit.dart';
 import 'package:sium_notification/features/home/repository/home_repository.dart';
 import 'package:sium_notification/utils/di_service.dart';
+import 'package:sium_notification/utils/routes.dart';
 
 part 'home_state.dart';
 
@@ -29,5 +30,9 @@ class HomeCubit extends BaseCubit<HomeState> {
       // showDialog
     }
     emit(state.copyWith(isLoading: false));
+  }
+
+  void goToDetail(NotificationModel? notificationModel){
+    Get.toNamed(Routes.notificationDetail, arguments: notificationModel);
   }
 }

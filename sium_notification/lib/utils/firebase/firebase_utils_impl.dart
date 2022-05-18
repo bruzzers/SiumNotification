@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
@@ -85,6 +86,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     List<NotificationModel> list = [];
     final collection = await firebase.get();
     for (var element in collection.docs) {
+      debugPrint(element.data().toString());
       list.add(NotificationModel(
           title: element.get("title"),
           imageUrl: element.get("imageUrl"),
@@ -97,6 +99,8 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           room: element.get("room"),
           note: element.get("note")));
     }
+    final userUid = await FirebaseAuth.instance.currentUser?.uid;
+    list.removeWhere((element) => element.sentByUid == userUid);
     return list;
   }
 
