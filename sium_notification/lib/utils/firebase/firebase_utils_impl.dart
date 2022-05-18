@@ -247,9 +247,11 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     final firebase = FirebaseFirestore.instance.collection("notifiche");
 
     final collection = await firebase.get();
-    final x = collection.docs.firstWhere((element) => element.id == "12GznCAxZvwYojXBnUlX");
+    final x = collection.docs.firstWhere((element) => element.id == id);
+    final element = x.get("ciao") as List;
+    element.add("ciao3");
     final y = x.reference.update({
-      "ciao": "ciao"
+      "ciao": element
     });
   }
 }
