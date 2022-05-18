@@ -83,6 +83,9 @@ dependencies:
   # Plays json animations from after effects
   lottie: ^1.2.1
 
+   # Power Manager
+  android_power_manager: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

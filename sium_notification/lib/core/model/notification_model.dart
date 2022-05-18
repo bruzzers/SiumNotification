@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class NotificationModel extends Equatable{
   final String? title;
+  final String? imageUrl;
   final String? sentBy;
   final String? sentByUid;
   final DateTime? date;
@@ -13,6 +14,7 @@ class NotificationModel extends Equatable{
 
   const NotificationModel({
     this.title,
+    this.imageUrl,
     this.sentBy,
     this.sentByUid,
     this.date,
@@ -25,5 +27,5 @@ class NotificationModel extends Equatable{
 
   @override
   // TODO: implement props
-  List<Object?> get props => [title, sentBy, sentByUid, date, position, floor, id, room, note];
+  List<Object?> get props => [title, sentBy, sentByUid, date, position, floor, id, room, note, imageUrl];
 }

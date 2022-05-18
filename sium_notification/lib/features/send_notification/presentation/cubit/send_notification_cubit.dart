@@ -55,7 +55,8 @@ class SendNotificationCubit extends BaseCubit<SendNotificationState> {
       floor: floorController.text,
       room: roomController.text,
       note: noteController.text,
-      position: state.selectedOffice
+      position: state.selectedOffice,
+      imageUrl: user?.photoURL ?? ""
     );
 
     final res = await repository.sendNotification(model);

@@ -4,6 +4,8 @@ import 'package:sium_notification/core/constants/text_styles.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/utils/di_service.dart';
 
+import 'notification_profile_image.dart';
+
 class NotificationItem extends StatelessWidget{
   final NotificationModel? model;
 
@@ -39,7 +41,12 @@ class NotificationItem extends StatelessWidget{
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text("Inviato da: ${model?.sentBy ?? ""}", style: sium14Regular,),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text("Inviato da: ${model?.sentBy ?? ""}", style: sium14Regular,)),
+                      NotificationProfileImage(imageUrl: model?.imageUrl,)
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),

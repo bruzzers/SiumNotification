@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:android_power_manager/android_power_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
@@ -28,6 +28,9 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   void onInit() async{
     emit(state.copyWith(errors: {}));
+    await AndroidPowerManager.requestIgnoreBatteryOptimizations();
+    final p = await AndroidPowerManager.isIgnoringBatteryOptimizations;
+    print("Battery status $p");
     final res = await repository.isLoggedIn();
 
     if(res) {

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +21,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       final res = await firebase.createUserWithEmailAndPassword(
           email: email ?? "", password: password ?? "");
       if (res.user != null) {
-        res.user?.sendEmailVerification();
+        await res.user?.sendEmailVerification();
         await res.user?.updateDisplayName(username);
         return UserModel(
           email: res.user?.email,
@@ -88,6 +87,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     for (var element in collection.docs) {
       list.add(NotificationModel(
           title: element.get("title"),
+          imageUrl: element.get("imageUrl"),
           sentBy: element.get("sentBy"),
           sentByUid: element.get("sentByUid"),
           date: dateUtils.parseStringToDateTime(element.get("date")),
@@ -111,7 +111,8 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "position": model.position ?? "",
       "floor": model.floor ?? "",
       "room": model.room ?? "",
-      "note": model.note ?? ""
+      "note": model.note ?? "",
+      "imageUrl": model.imageUrl ?? ""
     });
 
     //await FirebaseMessaging.instance.unsubscribeFromTopic("all");
