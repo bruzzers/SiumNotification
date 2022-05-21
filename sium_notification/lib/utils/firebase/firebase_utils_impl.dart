@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:sium_notification/core/model/comments_model.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
 import 'package:sium_notification/utils/di_service.dart';
@@ -97,11 +98,26 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           floor: element.get("floor"),
           id: element.id,
           room: element.get("room"),
+          comments: _getComments(element),
           note: element.get("note")));
     }
-    final userUid = await FirebaseAuth.instance.currentUser?.uid;
+    final userUid = FirebaseAuth.instance.currentUser?.uid;
     list.removeWhere((element) => element.sentByUid == userUid);
     return list;
+  }
+
+  List<CommentsModel>? _getComments(QueryDocumentSnapshot<Map<String, dynamic>> element){
+    if(element.data().containsKey("comments")){
+      final commentsList = element.get("comments") as List?;
+      return commentsList?.map((e) => CommentsModel(
+        sentBy: e["sentBy"],
+        sentByUid: e["sentByUid"],
+        comment: e["comment"],
+        imageUrl: e["imageUrl"]
+      )).toList();
+    }else{
+      return [];
+    }
   }
 
   @override
@@ -245,13 +261,19 @@ class FirebaseUtilsImpl extends FirebaseUtils {
   @override
   Future<void> addNotificationComment(String? comment, String? id) async{
     final firebase = FirebaseFirestore.instance.collection("notifiche");
+    final user = FirebaseAuth.instance.currentUser;
 
     final collection = await firebase.get();
     final x = collection.docs.firstWhere((element) => element.id == id);
-    final element = x.get("ciao") as List;
-    element.add("ciao3");
-    final y = x.reference.update({
-      "ciao": element
+    final element = x.data().containsKey("comments") ? x.get("comments") as List? : [];
+    element?.add({
+      "sentBy": user?.displayName ?? user?.email ?? "",
+      "sentByUid": user?.uid ?? "",
+      "comment": comment,
+      "imageUrl": user?.photoURL ?? ""
+    });
+    await x.reference.update({
+      "comments": element
     });
   }
 }

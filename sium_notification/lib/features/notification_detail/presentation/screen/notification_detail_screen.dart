@@ -7,6 +7,7 @@ import 'package:sium_notification/core/component/sium_text.dart';
 import 'package:sium_notification/core/constants/text_styles.dart';
 import 'package:sium_notification/features/home/presentation/component/notification_profile_image.dart';
 import 'package:sium_notification/features/notification_detail/presentation/component/notification_comment_input_box.dart';
+import 'package:sium_notification/features/notification_detail/presentation/component/notification_comment_item.dart';
 import 'package:sium_notification/features/notification_detail/presentation/cubit/notification_detail_cubit.dart';
 
 import '../../../../core/component/sium_button.dart';
@@ -83,6 +84,24 @@ class NotificationDetailScreen extends StatelessWidget {
                                   "Note aggiuntive: ${state.detail?.note}",
                                   style: sium16Regular),
                             ),
+                          if (state.detail?.comments?.isNotEmpty == true) ...[
+                            const Padding(
+                              padding: EdgeInsets.only(top: 12.0),
+                              child: SiumText(
+                                "Commenti",
+                                style: sium16Bold,
+                              ),
+                            ),
+                            ListView.builder(
+                              itemBuilder: (context, index) {
+                                return NotificationCommentItem(comment: state.detail?.comments?[index]);
+                              },
+                              itemCount: state.detail?.comments?.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.only(top: 5.0),
+                            )
+                          ]
                         ],
                       ),
                     ),
@@ -98,13 +117,17 @@ class NotificationDetailScreen extends StatelessWidget {
                       controller: context
                           .read<NotificationDetailCubit>()
                           .commentController,
-                      onFieldSubmitted: (_) => context.read<NotificationDetailCubit>().sendNotificationComment()),
+                      onFieldSubmitted: (_) => context
+                          .read<NotificationDetailCubit>()
+                          .sendNotificationComment()),
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),
                     child: SiumButton(
                       color: Colors.blue,
                       text: "Invia",
-                      onTap: () => context.read<NotificationDetailCubit>().sendNotificationComment(),
+                      onTap: () => context
+                          .read<NotificationDetailCubit>()
+                          .sendNotificationComment(),
                     ),
                   )
                 ],
