@@ -8,8 +8,8 @@ class NotificationDetailRepositoryImpl extends NotificationDetailRepository{
   NotificationDetailRepositoryImpl(this.firebaseUtils);
 
   @override
-  Future<void> sendNotificationComment(String? comment, String? id) async{
-    await firebaseUtils.addNotificationComment(comment, id);
+  Future<void> sendNotificationComment(String? comment, String? id, int? selectedVote) async{
+    await firebaseUtils.addNotificationComment(comment, id, selectedVote);
   }
 
   @override

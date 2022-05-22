@@ -18,11 +18,16 @@ class NotificationDetailCubit extends BaseCubit<NotificationDetailState> {
 
   void onInit(NotificationModel? detail){
     emit(state.copyWith(detail: detail));
+
+    final currentUser = repository.getCurrentUser();
+    if(detail?.votes?.any((element) => element.sentByUid == currentUser?.uid) == true){
+      emit(state.copyWith(selectedVote: detail?.votes?.firstWhere((element) => element.sentByUid == currentUser?.uid).vote));
+    }
   }
 
-  Future<void> sendNotificationComment() async{
+  Future<void> sendNotificationCommentAndVote() async{
     emit(state.copyWith(isLoading: true));
-    await repository.sendNotificationComment(commentController.text, state.detail?.id);
+    await repository.sendNotificationComment(commentController.text, state.detail?.id, state.selectedVote);
 
     await _updateDetail();
     emit(state.copyWith(isLoading: false));
@@ -44,5 +49,9 @@ class NotificationDetailCubit extends BaseCubit<NotificationDetailState> {
     newDetail.comments = commentList;
 
     emit(state.copyWith(detail: newDetail));
+  }
+
+  void selectVote(int element) {
+    emit(state.copyWith(selectedVote: element));
   }
 }

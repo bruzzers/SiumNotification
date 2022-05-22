@@ -1,6 +1,7 @@
 // coverage:ignore-file
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sium_notification/core/component/sium_base_screen.dart';
 import 'package:sium_notification/core/component/sium_text.dart';
@@ -8,6 +9,7 @@ import 'package:sium_notification/core/constants/text_styles.dart';
 import 'package:sium_notification/features/home/presentation/component/notification_profile_image.dart';
 import 'package:sium_notification/features/notification_detail/presentation/component/notification_comment_input_box.dart';
 import 'package:sium_notification/features/notification_detail/presentation/component/notification_comment_item.dart';
+import 'package:sium_notification/features/notification_detail/presentation/component/notification_detail_voting_item.dart';
 import 'package:sium_notification/features/notification_detail/presentation/cubit/notification_detail_cubit.dart';
 
 import '../../../../core/component/sium_button.dart';
@@ -94,7 +96,8 @@ class NotificationDetailScreen extends StatelessWidget {
                             ),
                             ListView.builder(
                               itemBuilder: (context, index) {
-                                return NotificationCommentItem(comment: state.detail?.comments?[index]);
+                                return NotificationCommentItem(
+                                    comment: state.detail?.comments?[index]);
                               },
                               itemCount: state.detail?.comments?.length,
                               shrinkWrap: true,
@@ -106,10 +109,15 @@ class NotificationDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  NotificationDetailVotingItem(
+                    list: const [1,2,3,4,5,6,7,8,9,10],
+                    selectedItem: state.selectedVote,
+                    onItemTap: (element) => context.read<NotificationDetailCubit>().selectVote(element),
+                  ),
                   const Padding(
                     padding: EdgeInsets.only(top: 24.0),
                     child: SiumText(
-                      "Inserisci un commento",
+                      "E se vuoi inserisci un commento",
                       style: sium16Bold,
                     ),
                   ),
@@ -119,7 +127,7 @@ class NotificationDetailScreen extends StatelessWidget {
                           .commentController,
                       onFieldSubmitted: (_) => context
                           .read<NotificationDetailCubit>()
-                          .sendNotificationComment()),
+                          .sendNotificationCommentAndVote()),
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),
                     child: SiumButton(
@@ -127,7 +135,7 @@ class NotificationDetailScreen extends StatelessWidget {
                       text: "Invia",
                       onTap: () => context
                           .read<NotificationDetailCubit>()
-                          .sendNotificationComment(),
+                          .sendNotificationCommentAndVote(),
                     ),
                   )
                 ],

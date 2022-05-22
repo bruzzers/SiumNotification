@@ -13,6 +13,8 @@ import 'package:sium_notification/core/model/user_model.dart';
 import 'package:sium_notification/utils/di_service.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
 
+import '../../core/model/notification_vote_model.dart';
+
 class FirebaseUtilsImpl extends FirebaseUtils {
   @override
   Future<UserModel> registerUser(
@@ -99,6 +101,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           id: element.id,
           room: element.get("room"),
           comments: _getComments(element),
+          votes: _getVotes(element),
           note: element.get("note")));
     }
     final userUid = FirebaseAuth.instance.currentUser?.uid;
@@ -114,6 +117,18 @@ class FirebaseUtilsImpl extends FirebaseUtils {
         sentByUid: e["sentByUid"],
         comment: e["comment"],
         imageUrl: e["imageUrl"]
+      )).toList();
+    }else{
+      return [];
+    }
+  }
+
+  List<NotificationVoteModel>? _getVotes(QueryDocumentSnapshot<Map<String, dynamic>> element){
+    if(element.data().containsKey("votes")){
+      final votesList = element.get("votes") as List?;
+      return votesList?.map((e) => NotificationVoteModel(
+        sentByUid: e["sentByUid"],
+        vote: e["vote"]
       )).toList();
     }else{
       return [];
@@ -259,21 +274,33 @@ class FirebaseUtilsImpl extends FirebaseUtils {
   }
 
   @override
-  Future<void> addNotificationComment(String? comment, String? id) async{
+  Future<void> addNotificationComment(String? comment, String? id, int? selectedVote) async{
     final firebase = FirebaseFirestore.instance.collection("notifiche");
     final user = FirebaseAuth.instance.currentUser;
 
     final collection = await firebase.get();
-    final x = collection.docs.firstWhere((element) => element.id == id);
-    final element = x.data().containsKey("comments") ? x.get("comments") as List? : [];
-    element?.add({
-      "sentBy": user?.displayName ?? user?.email ?? "",
-      "sentByUid": user?.uid ?? "",
-      "comment": comment,
-      "imageUrl": user?.photoURL ?? ""
-    });
-    await x.reference.update({
-      "comments": element
+    final notification = collection.docs.firstWhere((element) => element.id == id);
+    final commentsElement = notification.data().containsKey("comments") ? notification.get("comments") as List? : [];
+    if(comment?.isNotEmpty == true) {
+      commentsElement?.add({
+        "sentBy": user?.displayName ?? user?.email ?? "",
+        "sentByUid": user?.uid ?? "",
+        "comment": comment,
+        "imageUrl": user?.photoURL ?? ""
+      });
+    }
+    final voteElement = notification.data().containsKey("votes") ? notification.get("votes") as List? : [];
+    if(voteElement?.any((element) => element?["sentByUid"] == user?.uid) == true){
+      voteElement?.firstWhere((element) => element?["sentByUid"] == user?.uid)?["vote"] = selectedVote;
+    }else{
+      voteElement?.add({
+        "sentByUid": user?.uid,
+        "vote": selectedVote
+      });
+    }
+    await notification.reference.update({
+      "comments": commentsElement,
+      "votes": voteElement
     });
   }
 }

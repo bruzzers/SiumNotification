@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:sium_notification/core/model/comments_model.dart';
 
+import 'notification_vote_model.dart';
+
 class NotificationModel extends Equatable {
   final String? title;
   final String? imageUrl;
@@ -13,6 +15,7 @@ class NotificationModel extends Equatable {
   final String? room;
   final String? note;
   List<CommentsModel>? comments;
+  List<NotificationVoteModel>? votes;
 
   NotificationModel({
     this.title,
@@ -25,7 +28,8 @@ class NotificationModel extends Equatable {
     this.id,
     this.room,
     this.note,
-    this.comments
+    this.comments,
+    this.votes
   });
 
   NotificationModel.clone(NotificationModel? source)
@@ -40,7 +44,8 @@ class NotificationModel extends Equatable {
         id = source?.id,
         room = source?.room,
         note = source?.note,
-        comments = source?.comments;
+        comments = source?.comments,
+        votes = source?.votes;
 
   @override
   // TODO: implement props
@@ -56,6 +61,7 @@ class NotificationModel extends Equatable {
         room,
         note,
         imageUrl,
-        comments
+        comments,
+        votes
       ];
 }
