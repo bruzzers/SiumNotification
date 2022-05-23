@@ -54,4 +54,18 @@ class NotificationDetailCubit extends BaseCubit<NotificationDetailState> {
   void selectVote(int element) {
     emit(state.copyWith(selectedVote: element));
   }
+
+  double? getAverageVote(){
+    if(state.detail?.votes?.isNotEmpty == true){
+      int total = 0;
+      int number = 0;
+      state.detail?.votes?.forEach((element) {
+        total = total + (element.vote ?? 0);
+        number++;
+      });
+      return total/number;
+    }else{
+      return null;
+    }
+  }
 }

@@ -13,6 +13,7 @@ import 'package:sium_notification/features/notification_detail/presentation/comp
 import 'package:sium_notification/features/notification_detail/presentation/cubit/notification_detail_cubit.dart';
 
 import '../../../../core/component/sium_button.dart';
+import '../../../home/presentation/component/notification_sium_image.dart';
 
 class NotificationDetailScreen extends StatelessWidget {
   @override
@@ -57,6 +58,24 @@ class NotificationDetailScreen extends StatelessWidget {
                                     imageUrl: state.detail?.imageUrl,
                                   ),
                                 )
+                              ],
+                            ),
+                          ),
+                          if(context.read<NotificationDetailCubit>().getAverageVote() != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Row(
+                              children: [
+                                SiumText(
+                                  "Valutazione: ${context.read<NotificationDetailCubit>().getAverageVote()}",
+                                  style: sium16Regular,
+                                ),
+                                if (context.read<NotificationDetailCubit>().getAverageVote() != null &&
+                                    (context.read<NotificationDetailCubit>().getAverageVote() ?? 0) >= 9.0)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: NotificationSiumImage(),
+                                  )
                               ],
                             ),
                           ),
@@ -110,9 +129,11 @@ class NotificationDetailScreen extends StatelessWidget {
                     ),
                   ),
                   NotificationDetailVotingItem(
-                    list: const [1,2,3,4,5,6,7,8,9,10],
+                    list: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     selectedItem: state.selectedVote,
-                    onItemTap: (element) => context.read<NotificationDetailCubit>().selectVote(element),
+                    onItemTap: (element) => context
+                        .read<NotificationDetailCubit>()
+                        .selectVote(element),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 24.0),
