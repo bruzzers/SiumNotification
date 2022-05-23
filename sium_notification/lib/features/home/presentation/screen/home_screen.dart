@@ -39,6 +39,7 @@ class HomeScreen extends StatelessWidget {
                       return NotificationItem(
                           model: state.notifications?[index],
                         onItemTap: () => context.read<HomeCubit>().goToDetail(state.notifications?[index]),
+                        avgVote: context.read<HomeCubit>().getAverageVote(state.notifications?[index]),
                       );
                     },
                     itemCount: state.notifications?.length ?? 0,

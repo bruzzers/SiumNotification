@@ -1,7 +1,9 @@
 // coverage:ignore-file
 import 'package:flutter/material.dart';
+import 'package:sium_notification/core/component/sium_text.dart';
 import 'package:sium_notification/core/constants/text_styles.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
+import 'package:sium_notification/features/home/presentation/component/notification_sium_image.dart';
 import 'package:sium_notification/utils/di_service.dart';
 
 import 'notification_profile_image.dart';
@@ -9,8 +11,7 @@ import 'notification_profile_image.dart';
 class NotificationItem extends StatelessWidget{
   final NotificationModel? model;
   final VoidCallback onItemTap;
-
-  const NotificationItem({required this.model, required this.onItemTap});
+  final double? avgVote;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,14 @@ class NotificationItem extends StatelessWidget{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model?.title ?? "", style: sium18Bold,),
+                  SiumText(model?.title ?? "", style: sium18Bold,),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Row(
                       children: [
-                        Expanded(child: Text(model?.position ?? "", style: sium14Regular,)),
+                        Expanded(child: SiumText(model?.position ?? "", style: sium14Regular,)),
                         if(model?.floor?.isNotEmpty == true)
-                        Expanded(child: Text(
+                        Expanded(child: SiumText(
                           "Piano: ${model?.floor ?? ""}", style: sium14Regular,)),
                       ],
                     ),
@@ -40,20 +41,31 @@ class NotificationItem extends StatelessWidget{
                   if(model?.room?.isNotEmpty == true)
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: Text("Stanza: ${model?.room}", style: sium14Regular,),
+                    child: SiumText("Stanza: ${model?.room}", style: sium14Regular,),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Row(
                       children: [
-                        Expanded(child: Text("Inviato da: ${model?.sentBy ?? ""}", style: sium14Regular,)),
+                        Expanded(child: SiumText("Inviato da: ${model?.sentBy ?? ""}", style: sium14Regular,)),
                         NotificationProfileImage(imageUrl: model?.imageUrl,)
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(dateUtils.parseStringDate(model?.date) ?? "", style: sium12Regular,),
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Row(
+                      children: [
+                        Expanded(child: SiumText(dateUtils.parseStringDate(model?.date) ?? "", style: sium12Regular,)),
+                        if(avgVote != null)
+                          SiumText("Valutazione: $avgVote", style: sium12Regular,),
+                        if(avgVote != null && (avgVote ?? 0) >= 9.0)
+                           Padding(
+                             padding: const EdgeInsets.only(left: 8.0),
+                             child: NotificationSiumImage(),
+                           )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -65,4 +77,9 @@ class NotificationItem extends StatelessWidget{
     );
   }
 
+  const NotificationItem({
+    required this.model,
+    required this.onItemTap,
+    this.avgVote,
+  });
 }

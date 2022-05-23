@@ -32,7 +32,23 @@ class HomeCubit extends BaseCubit<HomeState> {
     emit(state.copyWith(isLoading: false));
   }
 
-  void goToDetail(NotificationModel? notificationModel){
-    Get.toNamed(Routes.notificationDetail, arguments: notificationModel);
+  Future<void> goToDetail(NotificationModel? notificationModel) async{
+    await Get.toNamed(Routes.notificationDetail, arguments: notificationModel);
+
+    onInit();
+  }
+
+  double? getAverageVote(NotificationModel? notification) {
+    if(notification?.votes?.isNotEmpty == true){
+      int total = 0;
+      int number = 0;
+      notification?.votes?.forEach((element) {
+        total = total + (element.vote ?? 0);
+        number++;
+      });
+      return total/number;
+    }else{
+      return null;
+    }
   }
 }
