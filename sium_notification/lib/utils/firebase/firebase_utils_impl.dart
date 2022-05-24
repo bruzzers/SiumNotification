@@ -4,12 +4,16 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:sium_notification/core/model/comments_model.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
 import 'package:sium_notification/utils/di_service.dart';
 import 'package:sium_notification/utils/firebase/firebase_utils.dart';
+
+import '../../core/model/notification_vote_model.dart';
 
 class FirebaseUtilsImpl extends FirebaseUtils {
   @override
@@ -85,6 +89,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     List<NotificationModel> list = [];
     final collection = await firebase.get();
     for (var element in collection.docs) {
+      debugPrint(element.data().toString());
       list.add(NotificationModel(
           title: element.get("title"),
           imageUrl: element.get("imageUrl"),
@@ -95,9 +100,39 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           floor: element.get("floor"),
           id: element.id,
           room: element.get("room"),
+          comments: _getComments(element),
+          votes: _getVotes(element),
           note: element.get("note")));
     }
+    final userUid = FirebaseAuth.instance.currentUser?.uid;
+    list.removeWhere((element) => element.sentByUid == userUid);
     return list;
+  }
+
+  List<CommentsModel>? _getComments(QueryDocumentSnapshot<Map<String, dynamic>> element){
+    if(element.data().containsKey("comments")){
+      final commentsList = element.get("comments") as List?;
+      return commentsList?.map((e) => CommentsModel(
+        sentBy: e["sentBy"],
+        sentByUid: e["sentByUid"],
+        comment: e["comment"],
+        imageUrl: e["imageUrl"]
+      )).toList();
+    }else{
+      return [];
+    }
+  }
+
+  List<NotificationVoteModel>? _getVotes(QueryDocumentSnapshot<Map<String, dynamic>> element){
+    if(element.data().containsKey("votes")){
+      final votesList = element.get("votes") as List?;
+      return votesList?.map((e) => NotificationVoteModel(
+        sentByUid: e["sentByUid"],
+        vote: e["vote"]
+      )).toList();
+    }else{
+      return [];
+    }
   }
 
   @override
@@ -115,7 +150,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "imageUrl": model.imageUrl ?? ""
     });
 
-    //await FirebaseMessaging.instance.unsubscribeFromTopic("all");
+    await FirebaseMessaging.instance.unsubscribeFromTopic("all");
     final _dio = Dio();
     _dio.interceptors.addAll([PrettyDioLogger(requestHeader: true)]);
     String body;
@@ -236,5 +271,36 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     final messaging = FirebaseMessaging.instance;
 
     await messaging.subscribeToTopic("all");
+  }
+
+  @override
+  Future<void> addNotificationComment(String? comment, String? id, int? selectedVote) async{
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+    final user = FirebaseAuth.instance.currentUser;
+
+    final collection = await firebase.get();
+    final notification = collection.docs.firstWhere((element) => element.id == id);
+    final commentsElement = notification.data().containsKey("comments") ? notification.get("comments") as List? : [];
+    if(comment?.isNotEmpty == true) {
+      commentsElement?.add({
+        "sentBy": user?.displayName ?? user?.email ?? "",
+        "sentByUid": user?.uid ?? "",
+        "comment": comment,
+        "imageUrl": user?.photoURL ?? ""
+      });
+    }
+    final voteElement = notification.data().containsKey("votes") ? notification.get("votes") as List? : [];
+    if(voteElement?.any((element) => element?["sentByUid"] == user?.uid) == true){
+      voteElement?.firstWhere((element) => element?["sentByUid"] == user?.uid)?["vote"] = selectedVote;
+    }else{
+      voteElement?.add({
+        "sentByUid": user?.uid,
+        "vote": selectedVote
+      });
+    }
+    await notification.reference.update({
+      "comments": commentsElement,
+      "votes": voteElement
+    });
   }
 }

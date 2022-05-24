@@ -20,6 +20,12 @@ const TextStyle sium16Regular = TextStyle(
   fontSize: 16,
 );
 
+const TextStyle sium16Bold = TextStyle(
+  fontFamily: 'Source Code Pro',
+  fontWeight: FontWeight.w700,
+  fontSize: 16,
+);
+
 const TextStyle sium14Regular = TextStyle(
   fontFamily: 'Source Code Pro',
   fontWeight: FontWeight.w400,

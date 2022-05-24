@@ -37,7 +37,10 @@ class HomeScreen extends StatelessWidget {
                   ListView.builder(
                     itemBuilder: (context, index) {
                       return NotificationItem(
-                          model: state.notifications?[index]);
+                          model: state.notifications?[index],
+                        onItemTap: () => context.read<HomeCubit>().goToDetail(state.notifications?[index]),
+                        avgVote: context.read<HomeCubit>().getAverageVote(state.notifications?[index]),
+                      );
                     },
                     itemCount: state.notifications?.length ?? 0,
                     physics: const NeverScrollableScrollPhysics(),
