@@ -18,7 +18,7 @@ class MainCubit extends BaseCubit<MainState> {
   void onInit() {
     emit(state.copyWith(index: 0));
     List<Widget> widgets = [BlocProvider(
-      create: (_) => HomeCubit(homeRepo, sessionManager)..onInit(),
+      create: (_) => HomeCubit(homeRepo, sessionManager, prefs)..onInit(),
       child: HomeScreen(),
     ), BlocProvider(
       create: (_) => SendNotificationCubit(sendNotificationRepo, dateUtils)..onInit(),

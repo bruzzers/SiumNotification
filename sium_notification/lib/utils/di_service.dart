@@ -1,5 +1,6 @@
 // coverage:ignore-file
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sium_notification/core/service/local_notification_service.dart';
 import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/session_manager/session_manager_impl.dart';
@@ -9,6 +10,8 @@ import 'package:sium_notification/features/login/data/login_repository.dart';
 import 'package:sium_notification/features/login/data/login_repository_impl.dart';
 import 'package:sium_notification/features/notification_detail/repository/notification_detail_repository.dart';
 import 'package:sium_notification/features/notification_detail/repository/notification_detail_repository_impl.dart';
+import 'package:sium_notification/features/own_notification/repository/own_notification_repository.dart';
+import 'package:sium_notification/features/own_notification/repository/own_notification_repository_impl.dart';
 import 'package:sium_notification/features/profile/repository/profile_repository.dart';
 import 'package:sium_notification/features/profile/repository/profile_repository_impl.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository.dart';
@@ -23,6 +26,7 @@ import 'package:sium_notification/utils/validator/fields_validator.dart';
 import 'package:sium_notification/utils/validator/fields_validator_impl.dart';
 
 Future<void> init() async{
+  Get.putAsync(() => SharedPreferences.getInstance());
   Get.put<FirebaseUtils>(FirebaseUtilsImpl());
   Get.put<LoginRepository>(LoginRepositoryImpl(firebaseUtils));
   Get.put<RegistrationRepository>(RegistrationRepositoryImpl(firebaseUtils));
@@ -32,10 +36,11 @@ Future<void> init() async{
   Get.put<ProfileRepository>(ProfileRepositoryImpl(firebaseUtils));
   Get.put<SendNotificationRepository>(SendNotificationRepositoryImpl(firebaseUtils));
   Get.put<NotificationDetailRepository>(NotificationDetailRepositoryImpl(firebaseUtils));
+  Get.put<OwnNotificationRepository>(OwnNotificationRepositoryImpl(firebaseUtils));
   Get.put<SiumDateUtils>(DateUtilsImpl());
   Get.put<LocalNotificationService>(LocalNotificationServiceImpl());
 }
-
+SharedPreferences get prefs => Get.find<SharedPreferences>();
 FirebaseUtils get firebaseUtils => Get.find<FirebaseUtils>();
 LoginRepository get loginRepo => Get.find<LoginRepository>();
 RegistrationRepository get registrationRepo => Get.find<RegistrationRepository>();
@@ -45,5 +50,6 @@ HomeRepository get homeRepo => Get.find<HomeRepository>();
 ProfileRepository get profileRepo => Get.find<ProfileRepository>();
 SendNotificationRepository get sendNotificationRepo => Get.find<SendNotificationRepository>();
 NotificationDetailRepository get notificationDetailRepo => Get.find<NotificationDetailRepository>();
+OwnNotificationRepository get ownNotificationRepo => Get.find<OwnNotificationRepository>();
 SiumDateUtils get dateUtils => Get.find<SiumDateUtils>();
 LocalNotificationService get localNotificationService => Get.find<LocalNotificationService>();

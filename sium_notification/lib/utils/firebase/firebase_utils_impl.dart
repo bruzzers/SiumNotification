@@ -109,6 +109,32 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     return list;
   }
 
+  @override
+  Future<List<NotificationModel>> getOwnNotifiationList() async{
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+    List<NotificationModel> list = [];
+    final collection = await firebase.get();
+    for (var element in collection.docs) {
+      debugPrint(element.data().toString());
+      list.add(NotificationModel(
+          title: element.get("title"),
+          imageUrl: element.get("imageUrl"),
+          sentBy: element.get("sentBy"),
+          sentByUid: element.get("sentByUid"),
+          date: dateUtils.parseStringToDateTime(element.get("date")),
+          position: element.get("position"),
+          floor: element.get("floor"),
+          id: element.id,
+          room: element.get("room"),
+          comments: _getComments(element),
+          votes: _getVotes(element),
+          note: element.get("note")));
+    }
+    final userUid = FirebaseAuth.instance.currentUser?.uid;
+    list.removeWhere((element) => element.sentByUid != userUid);
+    return list;
+  }
+
   List<CommentsModel>? _getComments(QueryDocumentSnapshot<Map<String, dynamic>> element){
     if(element.data().containsKey("comments")){
       final commentsList = element.get("comments") as List?;
@@ -173,6 +199,9 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       ),
       data: {
         "to": "/topics/all",
+        "data": {
+          "notificationId": model.id
+        },
         "notification": {
           "title": model.title,
           "body": body
@@ -274,12 +303,12 @@ class FirebaseUtilsImpl extends FirebaseUtils {
   }
 
   @override
-  Future<void> addNotificationComment(String? comment, String? id, int? selectedVote) async{
+  Future<void> addNotificationComment(String? comment, NotificationModel? model, int? selectedVote) async{
     final firebase = FirebaseFirestore.instance.collection("notifiche");
     final user = FirebaseAuth.instance.currentUser;
 
     final collection = await firebase.get();
-    final notification = collection.docs.firstWhere((element) => element.id == id);
+    final notification = collection.docs.firstWhere((element) => element.id == model?.id);
     final commentsElement = notification.data().containsKey("comments") ? notification.get("comments") as List? : [];
     if(comment?.isNotEmpty == true) {
       commentsElement?.add({
@@ -302,5 +331,50 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "comments": commentsElement,
       "votes": voteElement
     });
+
+    // Send notification to SIUM partecipant
+    await FirebaseMessaging.instance.unsubscribeFromTopic("all");
+    final _dio = Dio();
+    _dio.interceptors.addAll([PrettyDioLogger(requestHeader: true)]);
+    List<String> uidList = [];
+    uidList.add(model?.sentByUid ?? "");
+    model?.comments?.forEach((element) {
+      uidList.add(element.sentByUid ?? "");
+    });
+    final res = await _dio.request(
+        "https://fcm.googleapis.com/fcm/send",
+        options: Options(
+          method: "POST",
+          headers: {
+            Headers.contentTypeHeader: Headers.jsonContentType,
+            "Authorization":
+            "key=AAAAe5eKImc:APA91bH2qof93V77mv7OlBtRQPhpvS3KrUqYPnE6GcuW3xNz4hOnkeUNXKj1XpGSp2Gp8R32avEgoVpLrG8sP0WMWgDxFDvU1dab5R5AD-qbe1Yhv7Pk3r-XRYAyrYzePPgNIF1WafQe"
+          },
+        ),
+        data: {
+          "to": "/topics/all",
+          "data":{
+            "uid": uidList,
+            "notificationId": model?.id
+          }
+        }
+    );
+
+    if(res.statusCode == 200){
+      print("OK FCM");
+    }else{
+      print("ERROR");
+    }
+    await registerToAllTopic();
+  }
+
+  @override
+  Future<void> deleteNotification(NotificationModel? model) async {
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+
+    final collection = await firebase.get();
+    final notification = collection.docs.firstWhere((element) => element.id == model?.id);
+
+    return await notification.reference.delete();
   }
 }

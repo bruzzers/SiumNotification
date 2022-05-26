@@ -27,7 +27,7 @@ class NotificationDetailCubit extends BaseCubit<NotificationDetailState> {
 
   Future<void> sendNotificationCommentAndVote() async{
     emit(state.copyWith(isLoading: true));
-    await repository.sendNotificationComment(commentController.text, state.detail?.id, state.selectedVote);
+    await repository.sendNotificationComment(commentController.text, state.detail, state.selectedVote);
 
     await _updateDetail();
     emit(state.copyWith(isLoading: false));
