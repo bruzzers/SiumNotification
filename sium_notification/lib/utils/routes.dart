@@ -6,6 +6,8 @@ import 'package:sium_notification/features/login/presentation/screen/login_scree
 import 'package:sium_notification/features/main/presentation/cubit/main_cubit.dart';
 import 'package:sium_notification/features/main/presentation/screen/main_screen.dart';
 import 'package:sium_notification/features/notification_detail/presentation/cubit/notification_detail_cubit.dart';
+import 'package:sium_notification/features/own_notification/presentation/cubit/own_notification_cubit.dart';
+import 'package:sium_notification/features/own_notification/presentation/screen/own_notification_screen.dart';
 import 'package:sium_notification/features/registration/presentation/cubit/registration_cubit.dart';
 import 'package:sium_notification/features/registration/presentation/screen/registration_screen.dart';
 import 'package:sium_notification/features/splash/presentation/cubit/splash_cubit.dart';
@@ -22,6 +24,7 @@ class Routes{
   static const String registration = '/registration';
   static const String main = '/main';
   static const String notificationDetail = '/main/notificationDetail';
+  static const String ownNotifications = '/main/ownNotifications';
 
   static final List<GetPage> pages = [
     GetPage(
@@ -57,6 +60,13 @@ class Routes{
       page: () => BlocProvider(
         create: (_) => NotificationDetailCubit(notificationDetailRepo)..onInit(Get.arguments),
         child: NotificationDetailScreen(),
+      ),
+    ),
+    GetPage(
+      name: ownNotifications,
+      page: () => BlocProvider(
+        create: (_) => OwnNotificationCubit(ownNotificationRepo, dateUtils)..onInit(),
+        child: OwnNotificationScreen(),
       ),
     ),
   ];

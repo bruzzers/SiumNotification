@@ -13,7 +13,7 @@ class NotificationCommentInputBox extends StatelessWidget{
     return Padding(
       padding: const EdgeInsets.only(top: 12.0),
       child: SizedBox(
-          height: 160,
+          height: 80,
           child: TextFormField(
             maxLines: null,
             expands: true,

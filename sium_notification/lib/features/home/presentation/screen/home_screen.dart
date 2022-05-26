@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sium_notification/core/component/sium_base_screen.dart';
+import 'package:sium_notification/core/component/sium_button.dart';
 import 'package:sium_notification/core/component/sium_text.dart';
 import 'package:sium_notification/core/constants/text_styles.dart';
 import 'package:sium_notification/features/home/presentation/component/notification_item.dart';
@@ -32,6 +33,14 @@ class HomeScreen extends StatelessWidget {
                       "Qua puoi trovare le notifiche inviate dai tuoi colleghi",
                       style: sium18Bold,
                     ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 12.0, left: 18.0, right: 18.0),
+                    child: SiumText("Fai tap qui per vedere le SIUM che hai inviato tu", style: sium16Regular,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12.0, left: 18.0, right: 18.0),
+                    child: SiumButton(color: Colors.blue, text: "Le tue SIUM", onTap: () => context.read<HomeCubit>().goToOwnNotifications(),),
                   ),
                   if(state.notifications?.isNotEmpty == true)
                   ListView.builder(

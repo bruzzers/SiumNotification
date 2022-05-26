@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
@@ -50,5 +51,11 @@ class HomeCubit extends BaseCubit<HomeState> {
     }else{
       return null;
     }
+  }
+
+  Future<void> goToOwnNotifications() async{
+    await Get.toNamed(Routes.ownNotifications);
+
+    onInit();
   }
 }

@@ -109,6 +109,32 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     return list;
   }
 
+  @override
+  Future<List<NotificationModel>> getOwnNotifiationList() async{
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+    List<NotificationModel> list = [];
+    final collection = await firebase.get();
+    for (var element in collection.docs) {
+      debugPrint(element.data().toString());
+      list.add(NotificationModel(
+          title: element.get("title"),
+          imageUrl: element.get("imageUrl"),
+          sentBy: element.get("sentBy"),
+          sentByUid: element.get("sentByUid"),
+          date: dateUtils.parseStringToDateTime(element.get("date")),
+          position: element.get("position"),
+          floor: element.get("floor"),
+          id: element.id,
+          room: element.get("room"),
+          comments: _getComments(element),
+          votes: _getVotes(element),
+          note: element.get("note")));
+    }
+    final userUid = FirebaseAuth.instance.currentUser?.uid;
+    list.removeWhere((element) => element.sentByUid != userUid);
+    return list;
+  }
+
   List<CommentsModel>? _getComments(QueryDocumentSnapshot<Map<String, dynamic>> element){
     if(element.data().containsKey("comments")){
       final commentsList = element.get("comments") as List?;
@@ -302,5 +328,16 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "comments": commentsElement,
       "votes": voteElement
     });
+  }
+
+  @override
+  Future<void> deleteNotification(NotificationModel? model) async {
+    final firebase = FirebaseFirestore.instance.collection("notifiche");
+    final user = FirebaseAuth.instance.currentUser;
+
+    final collection = await firebase.get();
+    final notification = collection.docs.firstWhere((element) => element.id == model?.id);
+
+    return await notification.reference.delete();
   }
 }

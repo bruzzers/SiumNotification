@@ -11,6 +11,7 @@ abstract class FirebaseUtils{
   Future<UserCredential> signInWithGoogle();
   Future<bool> checkLoggedIn();
   Future<List<NotificationModel>> getNotificationList();
+  Future<List<NotificationModel>> getOwnNotifiationList();
   User? getCurrentUser();
   Future<bool> editEmail(String? email);
   Future<bool> editUsername(String? username);
@@ -20,4 +21,5 @@ abstract class FirebaseUtils{
   Future<void> sendNotification(NotificationModel model);
   Future<void> registerToAllTopic();
   Future<void> addNotificationComment(String? comment, String? id, int? selectedVote);
+  Future<void> deleteNotification(NotificationModel? model);
 }
