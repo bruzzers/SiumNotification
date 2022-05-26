@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -21,6 +22,8 @@ class HomeCubit extends BaseCubit<HomeState> {
     emit(state.copyWith(visibleName: sessionManager.getUser()?.displayName ?? sessionManager.getUser()?.email));
     await repository.registerToTopic();
     final res = await repository.getNotifications();
+    final messaging = await FirebaseMessaging.instance.getToken();
+    print("TOKEN FIREBASE: $messaging");
 
     if(res.isNotEmpty){
       res.sort((a, b) {
@@ -28,7 +31,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       });
       emit(state.copyWith(notifications: res));
     }else{
-      // showDialog
+      emit(state.copyWith(notifications: []));
     }
     emit(state.copyWith(isLoading: false));
   }
