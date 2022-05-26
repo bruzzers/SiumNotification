@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/session_manager/session_manager.dart';
 import 'package:sium_notification/core/state_management/base_cubit.dart';
@@ -15,7 +16,8 @@ part 'home_state.dart';
 class HomeCubit extends BaseCubit<HomeState> {
   final HomeRepository repository;
   final SessionManager sessionManager;
-  HomeCubit(this.repository, this.sessionManager) : super(HomeState());
+  final SharedPreferences prefs;
+  HomeCubit(this.repository, this.sessionManager, this.prefs) : super(HomeState());
 
   Future<void> onInit() async{
     emit(state.copyWith(isLoading: true));
@@ -26,6 +28,15 @@ class HomeCubit extends BaseCubit<HomeState> {
     print("TOKEN FIREBASE: $messaging");
 
     if(res.isNotEmpty){
+      final sharedNotId = prefs.getString("notificationId");
+      if(sharedNotId != null && sharedNotId.isNotEmpty){
+        if(res.any((element) => element.id == sharedNotId)){
+          prefs.remove("notificationId");
+          Get.toNamed(Routes.notificationDetail, arguments: res.firstWhere((element) => element.id == sharedNotId));
+        }else{
+          Get.toNamed(Routes.ownNotifications);
+        }
+      }
       res.sort((a, b) {
         return dateUtils.parseStringDate(b.date)?.compareTo(dateUtils.parseStringDate(a.date) ?? "") ?? 0;
       });

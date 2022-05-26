@@ -199,6 +199,9 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       ),
       data: {
         "to": "/topics/all",
+        "data": {
+          "notificationId": model.id
+        },
         "notification": {
           "title": model.title,
           "body": body
@@ -300,12 +303,12 @@ class FirebaseUtilsImpl extends FirebaseUtils {
   }
 
   @override
-  Future<void> addNotificationComment(String? comment, String? id, int? selectedVote) async{
+  Future<void> addNotificationComment(String? comment, NotificationModel? model, int? selectedVote) async{
     final firebase = FirebaseFirestore.instance.collection("notifiche");
     final user = FirebaseAuth.instance.currentUser;
 
     final collection = await firebase.get();
-    final notification = collection.docs.firstWhere((element) => element.id == id);
+    final notification = collection.docs.firstWhere((element) => element.id == model?.id);
     final commentsElement = notification.data().containsKey("comments") ? notification.get("comments") as List? : [];
     if(comment?.isNotEmpty == true) {
       commentsElement?.add({
@@ -328,12 +331,46 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "comments": commentsElement,
       "votes": voteElement
     });
+
+    // Send notification to SIUM partecipant
+    await FirebaseMessaging.instance.unsubscribeFromTopic("all");
+    final _dio = Dio();
+    _dio.interceptors.addAll([PrettyDioLogger(requestHeader: true)]);
+    List<String> uidList = [];
+    uidList.add(model?.sentByUid ?? "");
+    model?.comments?.forEach((element) {
+      uidList.add(element.sentByUid ?? "");
+    });
+    final res = await _dio.request(
+        "https://fcm.googleapis.com/fcm/send",
+        options: Options(
+          method: "POST",
+          headers: {
+            Headers.contentTypeHeader: Headers.jsonContentType,
+            "Authorization":
+            "key=AAAAe5eKImc:APA91bH2qof93V77mv7OlBtRQPhpvS3KrUqYPnE6GcuW3xNz4hOnkeUNXKj1XpGSp2Gp8R32avEgoVpLrG8sP0WMWgDxFDvU1dab5R5AD-qbe1Yhv7Pk3r-XRYAyrYzePPgNIF1WafQe"
+          },
+        ),
+        data: {
+          "to": "/topics/all",
+          "data":{
+            "uid": uidList,
+            "notificationId": model?.id
+          }
+        }
+    );
+
+    if(res.statusCode == 200){
+      print("OK FCM");
+    }else{
+      print("ERROR");
+    }
+    await registerToAllTopic();
   }
 
   @override
   Future<void> deleteNotification(NotificationModel? model) async {
     final firebase = FirebaseFirestore.instance.collection("notifiche");
-    final user = FirebaseAuth.instance.currentUser;
 
     final collection = await firebase.get();
     final notification = collection.docs.firstWhere((element) => element.id == model?.id);

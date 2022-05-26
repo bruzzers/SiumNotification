@@ -65,7 +65,7 @@ class Routes{
     GetPage(
       name: ownNotifications,
       page: () => BlocProvider(
-        create: (_) => OwnNotificationCubit(ownNotificationRepo, dateUtils)..onInit(),
+        create: (_) => OwnNotificationCubit(ownNotificationRepo, dateUtils, prefs)..onInit(),
         child: OwnNotificationScreen(),
       ),
     ),

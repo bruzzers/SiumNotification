@@ -119,6 +119,7 @@ class NotificationDetailScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(top: 5.0),
                       ),
+                      ],
                       NotificationDetailVotingItem(
                         list: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                         selectedItem: state.selectedVote,
@@ -150,7 +151,6 @@ class NotificationDetailScreen extends StatelessWidget {
                               .sendNotificationCommentAndVote(),
                         ),
                       )
-                    ]
                   ],
                 ),
               ),
