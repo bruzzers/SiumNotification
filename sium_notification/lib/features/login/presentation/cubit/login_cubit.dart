@@ -30,9 +30,6 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   void onInit() async{
     emit(state.copyWith(errors: {}));
-    if(Platform.isAndroid) {
-      await AndroidPowerManager.requestIgnoreBatteryOptimizations();
-    }
     final res = await repository.isLoggedIn();
 
     if(res) {

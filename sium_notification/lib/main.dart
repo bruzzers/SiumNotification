@@ -7,12 +7,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sium_notification/utils/di_service.dart';
 import 'package:sium_notification/utils/routes.dart';
 import 'utils/di_service.dart' as di;
 
-Future<void> pippo(RemoteMessage message) async {
+Future<void> showRemoteMessage(RemoteMessage message) async {
   final newMessage = RemoteMessage(
       data: message.data,
       senderId: message.senderId,
@@ -89,7 +88,7 @@ void main() async {
         "Application opened when in background state with notification: ${message.notification?.title}");
   });
 
-  FirebaseMessaging.onBackgroundMessage(pippo);
+  FirebaseMessaging.onBackgroundMessage(showRemoteMessage);
 
   //Firebase Foreground Messaging Handler
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
