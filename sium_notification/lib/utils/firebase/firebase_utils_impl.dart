@@ -373,4 +373,17 @@ class FirebaseUtilsImpl extends FirebaseUtils {
 
     return await notification.reference.delete();
   }
+
+  @override
+  Future<bool> resetPassword(String? email) async{
+    final firebase = FirebaseAuth.instance;
+    try {
+      await firebase.sendPasswordResetEmail(email: email ?? "");
+
+      return true;
+    }catch (e){
+      return false;
+    }
+
+  }
 }

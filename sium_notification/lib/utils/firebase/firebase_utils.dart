@@ -21,4 +21,5 @@ abstract class FirebaseUtils{
   Future<void> registerToAllTopic();
   Future<void> addNotificationComment(String? comment, NotificationModel? model, int? selectedVote);
   Future<void> deleteNotification(NotificationModel? model);
+  Future<bool> resetPassword(String? email);
 }
