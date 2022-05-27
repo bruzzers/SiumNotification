@@ -10,6 +10,8 @@ import 'package:sium_notification/features/own_notification/presentation/cubit/o
 import 'package:sium_notification/features/own_notification/presentation/screen/own_notification_screen.dart';
 import 'package:sium_notification/features/registration/presentation/cubit/registration_cubit.dart';
 import 'package:sium_notification/features/registration/presentation/screen/registration_screen.dart';
+import 'package:sium_notification/features/reset_password/presentation/cubit/reset_password_cubit.dart';
+import 'package:sium_notification/features/reset_password/presentation/screen/reset_password_screen.dart';
 import 'package:sium_notification/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:sium_notification/features/splash/presentation/screen/splash_screen.dart';
 import 'package:sium_notification/utils/di_service.dart';
@@ -25,6 +27,7 @@ class Routes{
   static const String main = '/main';
   static const String notificationDetail = '/main/notificationDetail';
   static const String ownNotifications = '/main/ownNotifications';
+  static const String resetPassword = '/main/login/resetPassword';
 
   static final List<GetPage> pages = [
     GetPage(
@@ -67,6 +70,13 @@ class Routes{
       page: () => BlocProvider(
         create: (_) => OwnNotificationCubit(ownNotificationRepo, dateUtils, prefs)..onInit(),
         child: OwnNotificationScreen(),
+      ),
+    ),
+    GetPage(
+      name: resetPassword,
+      page: () => BlocProvider(
+        create: (_) => ResetPasswordCubit(resetPswRepository, validator),
+        child: ResetPasswordScreen(),
       ),
     ),
   ];

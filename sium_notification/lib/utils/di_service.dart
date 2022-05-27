@@ -16,6 +16,8 @@ import 'package:sium_notification/features/profile/repository/profile_repository
 import 'package:sium_notification/features/profile/repository/profile_repository_impl.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository.dart';
 import 'package:sium_notification/features/registration/repository/registration_repository_impl.dart';
+import 'package:sium_notification/features/reset_password/repository/reset_password_repository.dart';
+import 'package:sium_notification/features/reset_password/repository/reset_password_repository_impl.dart';
 import 'package:sium_notification/features/send_notification/repository/send_notification_repository.dart';
 import 'package:sium_notification/features/send_notification/repository/send_notification_repository_impl.dart';
 import 'package:sium_notification/utils/date/date_utils.dart';
@@ -37,6 +39,7 @@ Future<void> init() async{
   Get.put<SendNotificationRepository>(SendNotificationRepositoryImpl(firebaseUtils));
   Get.put<NotificationDetailRepository>(NotificationDetailRepositoryImpl(firebaseUtils));
   Get.put<OwnNotificationRepository>(OwnNotificationRepositoryImpl(firebaseUtils));
+  Get.put<ResetPasswordRepository>(ResetPasswordRepositoryImpl(firebaseUtils));
   Get.put<SiumDateUtils>(DateUtilsImpl());
   Get.put<LocalNotificationService>(LocalNotificationServiceImpl());
 }
@@ -53,3 +56,4 @@ NotificationDetailRepository get notificationDetailRepo => Get.find<Notification
 OwnNotificationRepository get ownNotificationRepo => Get.find<OwnNotificationRepository>();
 SiumDateUtils get dateUtils => Get.find<SiumDateUtils>();
 LocalNotificationService get localNotificationService => Get.find<LocalNotificationService>();
+ResetPasswordRepository get resetPswRepository => Get.find<ResetPasswordRepository>();

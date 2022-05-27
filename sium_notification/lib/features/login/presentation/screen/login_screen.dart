@@ -45,6 +45,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SiumText(
+                      "Hai dimenticato la password?",
+                      style: sium16RegularUnderline,
+                      onTap: () =>
+                          context.read<LoginCubit>().goToResetPassword(),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(top: 18.0),
                     child: SiumText(
                       "Se non sei ancora iscritto, iscriviti ora",

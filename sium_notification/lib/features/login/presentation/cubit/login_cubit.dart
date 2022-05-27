@@ -134,4 +134,8 @@ class LoginCubit extends BaseCubit<LoginState> {
       await signIn();
     }
   }
+
+  Future<void> goToResetPassword() async{
+    Get.toNamed(Routes.resetPassword);
+  }
 }
