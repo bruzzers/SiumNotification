@@ -41,20 +41,16 @@ class FirebaseUtilsImpl extends FirebaseUtils {
   }
 
   @override
-  Future<UserCredential> login(String? email, String? password) async {
+  Future<UserCredential?> login(String? email, String? password) async {
     final firebase = FirebaseAuth.instance;
-    final res = await firebase.signInWithEmailAndPassword(
-        email: email ?? "", password: password ?? "");
+    try {
+      final res = await firebase.signInWithEmailAndPassword(
+          email: email ?? "", password: password ?? "");
 
-    return res;
-  }
-
-  @override
-  Future<UserCredential> loginWithCredential(AuthCredential credential) async {
-    final firebase = FirebaseAuth.instance;
-    final res = await firebase.signInWithCredential(credential);
-
-    return res;
+      return res;
+    } catch (e){
+      return null;
+    }
   }
 
   @override

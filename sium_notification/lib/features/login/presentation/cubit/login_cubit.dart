@@ -46,7 +46,7 @@ class LoginCubit extends BaseCubit<LoginState> {
                 biometricOnly: true,));
           if (authorized) {
             final res = await repository.login(credential?.email, credential?.password);
-            if(res.user?.emailVerified == true) {
+            if(res?.user?.emailVerified == true) {
               sessionManager.saveUser(repository.getCurrentUser());
               Get.offAndToNamed(Routes.main);
             }else{
@@ -75,15 +75,20 @@ class LoginCubit extends BaseCubit<LoginState> {
     emit(state.copyWith(isLoading: true));
     final res = await repository.login(emailController.text, pswController.text);
 
-    print(res.user.toString());
-    if(res.user != null) {
-      if(res.user?.emailVerified == true) {
-        sessionManager.saveUser(res.user);
-        sessionManager.saveCredential(emailController.text, pswController.text);
-        Get.offAndToNamed(Routes.main);
-      }else{
-        Get.snackbar("Impossibile effettuare l'accesso", "Conferma la registrazione sulla tua mail");
+    if(res != null) {
+      if (res.user != null) {
+        if (res.user?.emailVerified == true) {
+          sessionManager.saveUser(res.user);
+          sessionManager.saveCredential(
+              emailController.text, pswController.text);
+          Get.offAndToNamed(Routes.main);
+        } else {
+          Get.snackbar("Impossibile effettuare l'accesso",
+              "Conferma la registrazione sulla tua mail");
+        }
       }
+    }else{
+      Get.snackbar("Impossibile effettuare l'accesso", "Username o Password errati");
     }
     emit(state.copyWith(isLoading: false));
   }

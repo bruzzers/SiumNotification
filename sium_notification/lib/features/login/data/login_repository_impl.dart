@@ -8,7 +8,7 @@ class LoginRepositoryImpl extends LoginRepository{
 
   LoginRepositoryImpl(this.firebaseUtils);
   @override
-  Future<UserCredential> login(String? email, String? password) async{
+  Future<UserCredential?> login(String? email, String? password) async{
     final res = firebaseUtils.login(email, password);
 
     return res;
@@ -31,11 +31,6 @@ class LoginRepositoryImpl extends LoginRepository{
   @override
   User? getCurrentUser() {
     return firebaseUtils.getCurrentUser();
-  }
-
-  @override
-  Future<UserCredential> loginWithCredential(AuthCredential credential) async {
-    return await firebaseUtils.loginWithCredential(credential);
   }
 
 }
