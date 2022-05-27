@@ -53,6 +53,8 @@ class LocalNotificationServiceImpl extends LocalNotificationService {
             android: AndroidNotificationDetails(
               "SiumNotification",
               "SiumNotification Channel",
+              sound: RawResourceAndroidNotificationSound("sium_not"),
+              playSound: true,
               importance: Importance.max,
               priority: Priority.high,
             ),
