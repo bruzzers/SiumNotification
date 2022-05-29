@@ -100,6 +100,11 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           votes: _getVotes(element),
           note: element.get("note")));
     }
+    final oldList = list.where((element) => DateTime.now().difference(element.date!).inDays > 30).toList();
+    oldList.forEach((e) async{
+      list.removeWhere((element) => element.id == e.id);
+      await collection.docs.firstWhere((element) => element.id == e.id).reference.delete();
+    });
     final userUid = FirebaseAuth.instance.currentUser?.uid;
     list.removeWhere((element) => element.sentByUid == userUid);
     return list;
