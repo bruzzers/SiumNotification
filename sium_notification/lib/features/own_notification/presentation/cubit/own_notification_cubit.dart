@@ -32,10 +32,11 @@ class OwnNotificationCubit extends BaseCubit<OwnNotificationState> {
     }
 
     res.sort((a, b) {
-      return dateUtils
-              .parseStringDate(b.date)
-              ?.compareTo(dateUtils.parseStringDate(a.date) ?? "") ??
-          0;
+      if(a.date?.isBefore(b.date ?? DateTime.now()) == true){
+        return 1;
+      }else {
+        return -1;
+      }
     });
 
     emit(state.copyWith(notifications: res, isLoading: false));
