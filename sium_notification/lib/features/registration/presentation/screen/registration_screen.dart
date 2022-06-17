@@ -49,6 +49,7 @@ class RegistrationScreen extends StatelessWidget {
                       error: state.errors?["psw"],
                       passwordObscured: state.passwordObscured,
                       action: TextInputAction.done,
+                      onIconTap: () => context.read<RegistrationCubit>().setVisibility(),
                       onFieldSubmitted: (string) => context
                           .read<RegistrationCubit>()
                           .checkValuesAndRegister(),
