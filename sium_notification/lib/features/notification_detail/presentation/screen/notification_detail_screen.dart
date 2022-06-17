@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sium_notification/core/component/sium_base_screen.dart';
 import 'package:sium_notification/core/component/sium_text.dart';
 import 'package:sium_notification/core/constants/text_styles.dart';
+import 'package:sium_notification/features/home/presentation/component/notification_detail_image.dart';
 import 'package:sium_notification/features/home/presentation/component/notification_profile_image.dart';
 import 'package:sium_notification/features/notification_detail/presentation/component/notification_comment_input_box.dart';
 import 'package:sium_notification/features/notification_detail/presentation/component/notification_comment_item.dart';
@@ -57,24 +58,36 @@ class NotificationDetailScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if(context.read<NotificationDetailCubit>().getAverageVote() != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
-                      child: Row(
-                        children: [
-                          SiumText(
-                            "Valutazione: ${context.read<NotificationDetailCubit>().getAverageVote()}",
-                            style: sium16Regular,
-                          ),
-                          if (context.read<NotificationDetailCubit>().getAverageVote() != null &&
-                              (context.read<NotificationDetailCubit>().getAverageVote() ?? 0) >= 9.0)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: NotificationSiumImage(),
-                            )
-                        ],
+                    if(state.detail?.notificationImageUrl?.isNotEmpty == true)
+                    Align(alignment: Alignment.center, child: NotificationDetailImage(imageUrl: state.detail?.notificationImageUrl,)),
+                    if (context
+                            .read<NotificationDetailCubit>()
+                            .getAverageVote() !=
+                        null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Row(
+                          children: [
+                            SiumText(
+                              "Valutazione: ${context.read<NotificationDetailCubit>().getAverageVote()}",
+                              style: sium16Regular,
+                            ),
+                            if (context
+                                        .read<NotificationDetailCubit>()
+                                        .getAverageVote() !=
+                                    null &&
+                                (context
+                                            .read<NotificationDetailCubit>()
+                                            .getAverageVote() ??
+                                        0) >=
+                                    9.0)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: NotificationSiumImage(),
+                              )
+                          ],
+                        ),
                       ),
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: SiumText(
@@ -119,38 +132,38 @@ class NotificationDetailScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(top: 5.0),
                       ),
-                      ],
-                      NotificationDetailVotingItem(
-                        list: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                        selectedItem: state.selectedVote,
-                        onItemTap: (element) => context
+                    ],
+                    NotificationDetailVotingItem(
+                      list: const [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                      selectedItem: state.selectedVote,
+                      onItemTap: (element) => context
+                          .read<NotificationDetailCubit>()
+                          .selectVote(element),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 24.0),
+                      child: SiumText(
+                        "E se vuoi inserisci un commento",
+                        style: sium16Bold,
+                      ),
+                    ),
+                    NotificationCommentInputBox(
+                        controller: context
                             .read<NotificationDetailCubit>()
-                            .selectVote(element),
+                            .commentController,
+                        onFieldSubmitted: (_) => context
+                            .read<NotificationDetailCubit>()
+                            .sendNotificationCommentAndVote()),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 18.0, bottom: 18.0),
+                      child: SiumButton(
+                        color: Colors.blue,
+                        text: "Invia",
+                        onTap: () => context
+                            .read<NotificationDetailCubit>()
+                            .sendNotificationCommentAndVote(),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 24.0),
-                        child: SiumText(
-                          "E se vuoi inserisci un commento",
-                          style: sium16Bold,
-                        ),
-                      ),
-                      NotificationCommentInputBox(
-                          controller: context
-                              .read<NotificationDetailCubit>()
-                              .commentController,
-                          onFieldSubmitted: (_) => context
-                              .read<NotificationDetailCubit>()
-                              .sendNotificationCommentAndVote()),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 18.0, bottom: 18.0),
-                        child: SiumButton(
-                          color: Colors.blue,
-                          text: "Invia",
-                          onTap: () => context
-                              .read<NotificationDetailCubit>()
-                              .sendNotificationCommentAndVote(),
-                        ),
-                      )
+                    )
                   ],
                 ),
               ),

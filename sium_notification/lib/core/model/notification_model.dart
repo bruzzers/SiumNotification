@@ -16,6 +16,40 @@ class NotificationModel extends Equatable {
   final String? note;
   List<CommentsModel>? comments;
   List<NotificationVoteModel>? votes;
+  final String? notificationImageUrl;
+
+  NotificationModel.clone(NotificationModel? source)
+      : title = source?.title,
+        imageUrl = source?.imageUrl,
+        sentBy = source?.sentBy,
+        sentByUid = source?.sentByUid,
+        date = source?.date,
+        position = source?.position,
+        floor = source?.floor,
+        id = source?.id,
+        room = source?.room,
+        note = source?.note,
+        comments = source?.comments,
+        votes = source?.votes,
+        notificationImageUrl = source?.notificationImageUrl;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        title,
+        sentBy,
+        sentByUid,
+        date,
+        position,
+        floor,
+        id,
+        room,
+        note,
+        imageUrl,
+        comments,
+        votes,
+        notificationImageUrl
+      ];
 
   NotificationModel({
     this.title,
@@ -29,39 +63,7 @@ class NotificationModel extends Equatable {
     this.room,
     this.note,
     this.comments,
-    this.votes
+    this.votes,
+    this.notificationImageUrl,
   });
-
-  NotificationModel.clone(NotificationModel? source)
-      :
-        title = source?.title,
-        imageUrl = source?.imageUrl,
-        sentBy = source?.sentBy,
-        sentByUid = source?.sentByUid,
-        date = source?.date,
-        position = source?.position,
-        floor = source?.floor,
-        id = source?.id,
-        room = source?.room,
-        note = source?.note,
-        comments = source?.comments,
-        votes = source?.votes;
-
-  @override
-  // TODO: implement props
-  List<Object?> get props =>
-      [
-        title,
-        sentBy,
-        sentByUid,
-        date,
-        position,
-        floor,
-        id,
-        room,
-        note,
-        imageUrl,
-        comments,
-        votes
-      ];
 }
