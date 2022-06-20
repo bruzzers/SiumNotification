@@ -7,6 +7,7 @@ import 'package:sium_notification/core/component/sium_button.dart';
 import 'package:sium_notification/core/component/sium_text.dart';
 import 'package:sium_notification/core/constants/text_styles.dart';
 import 'package:sium_notification/features/send_notification/presentation/component/send_notification_dropdown.dart';
+import 'package:sium_notification/features/send_notification/presentation/component/send_notification_image.dart';
 import 'package:sium_notification/features/send_notification/presentation/component/send_notification_input_box.dart';
 import 'package:sium_notification/features/send_notification/presentation/component/send_notification_text_field.dart';
 import 'package:sium_notification/features/send_notification/presentation/cubit/send_notification_cubit.dart';
@@ -70,6 +71,10 @@ class SendNotificationScreen extends StatelessWidget {
                                   .read<SendNotificationCubit>()
                                   .noteController,
                               onFieldSubmitted: (_) {},
+                            ),
+                            SendNotificationImage(
+                              hasImage: state.notificationImageUrl?.isEmpty == false,
+                              onButtonTap: () => context.read<SendNotificationCubit>().pickImage(),
                             )
                           ],
                         ),

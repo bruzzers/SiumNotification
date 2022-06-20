@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/model/user_model.dart';
 
@@ -22,4 +23,6 @@ abstract class FirebaseUtils{
   Future<void> addNotificationComment(String? comment, NotificationModel? model, int? selectedVote);
   Future<void> deleteNotification(NotificationModel? model);
   Future<bool> resetPassword(String? email);
+  Future<String?> addImageToDb(XFile? file);
+  Future<bool> removeImageToDb(String? url);
 }

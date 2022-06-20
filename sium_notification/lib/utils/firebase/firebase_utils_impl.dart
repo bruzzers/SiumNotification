@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sium_notification/core/model/comments_model.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
@@ -98,6 +99,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           room: element.get("room"),
           comments: _getComments(element),
           votes: _getVotes(element),
+          notificationImageUrl: _getNotificationImage(element),
           note: element.get("note")));
     }
     final oldList = list.where((element) => DateTime.now().difference(element.date!).inDays > 30).toList();
@@ -127,6 +129,7 @@ class FirebaseUtilsImpl extends FirebaseUtils {
           floor: element.get("floor"),
           id: element.id,
           room: element.get("room"),
+          notificationImageUrl: _getNotificationImage(element),
           comments: _getComments(element),
           votes: _getVotes(element),
           note: element.get("note")));
@@ -162,6 +165,14 @@ class FirebaseUtilsImpl extends FirebaseUtils {
     }
   }
 
+  String? _getNotificationImage(QueryDocumentSnapshot<Map<String, dynamic>> element){
+    if(element.data().containsKey("notificationImageUrl")){
+      return element.get("notificationImageUrl");
+    }else{
+      return "";
+    }
+  }
+
   @override
   Future<void> sendNotification(NotificationModel model) async {
     final firebase = FirebaseFirestore.instance.collection("notifiche");
@@ -174,7 +185,8 @@ class FirebaseUtilsImpl extends FirebaseUtils {
       "floor": model.floor ?? "",
       "room": model.room ?? "",
       "note": model.note ?? "",
-      "imageUrl": model.imageUrl ?? ""
+      "imageUrl": model.imageUrl ?? "",
+      "notificationImageUrl": model.notificationImageUrl ?? ""
     });
 
     await FirebaseMessaging.instance.unsubscribeFromTopic("all");
@@ -284,7 +296,6 @@ class FirebaseUtilsImpl extends FirebaseUtils {
   Future<void> editProfileImage(File profileImage) async {
     final storage = FirebaseStorage.instance;
     final auth = FirebaseAuth.instance;
-    print(storage.toString());
 
     final ref = storage
         .ref()
@@ -294,6 +305,35 @@ class FirebaseUtilsImpl extends FirebaseUtils {
 
     final url = await ref.getDownloadURL();
     await auth.currentUser?.updatePhotoURL(url);
+  }
+
+  @override
+  Future<String?> addImageToDb(XFile? file) async{
+    final storage = FirebaseStorage.instance;
+
+    try {
+      final ref = storage
+          .ref()
+          .child("notificationPicture")
+          .child("${file?.name}");
+      final res = await ref.putFile(File(file?.path ?? ""));
+
+      return await res.ref.getDownloadURL();
+    }catch (e){
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> removeImageToDb(String? url) async{
+    final storage = FirebaseStorage.instance;
+
+    try {
+      await storage.refFromURL(url ?? "").delete();
+      return true;
+    }catch (e){
+      return false;
+    }
   }
 
   @override
