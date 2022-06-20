@@ -58,8 +58,12 @@ class NotificationDetailScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if(state.detail?.notificationImageUrl?.isNotEmpty == true)
-                    Align(alignment: Alignment.center, child: NotificationDetailImage(imageUrl: state.detail?.notificationImageUrl,)),
+                    if (state.detail?.notificationImageUrl?.isNotEmpty == true)
+                      Align(
+                          alignment: Alignment.center,
+                          child: NotificationDetailImage(
+                            imageUrl: state.detail?.notificationImageUrl,
+                          )),
                     if (context
                             .read<NotificationDetailCubit>()
                             .getAverageVote() !=

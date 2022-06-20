@@ -45,6 +45,15 @@ class HomeCubit extends BaseCubit<HomeState> {
         }
       });
       emit(state.copyWith(notifications: res));
+
+      final notId = prefs.getString("notificationId");
+      if(notId?.isNotEmpty == true && notId != null){
+        final notificationDetail = state.notifications?.firstWhere((element) => element.id == notId, orElse: () => NotificationModel(id: null));
+        if(notificationDetail?.id != null){
+          prefs.remove("notificationId");
+          goToDetail(notificationDetail);
+        }
+      }
     }else{
       emit(state.copyWith(notifications: []));
     }
