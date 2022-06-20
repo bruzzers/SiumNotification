@@ -1,6 +1,8 @@
 // coverage:ignore-file
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:sium_notification/features/full_screen_image/presentation/cubit/full_screen_image_cubit.dart';
+import 'package:sium_notification/features/full_screen_image/presentation/screen/full_screen_image_screen.dart';
 import 'package:sium_notification/features/login/presentation/cubit/login_cubit.dart';
 import 'package:sium_notification/features/login/presentation/screen/login_screen.dart';
 import 'package:sium_notification/features/main/presentation/cubit/main_cubit.dart';
@@ -28,6 +30,7 @@ class Routes{
   static const String notificationDetail = '/main/notificationDetail';
   static const String ownNotifications = '/main/ownNotifications';
   static const String resetPassword = '/main/login/resetPassword';
+  static const String fullScreenImage = '/main/notificationDetail/fullScreenImage';
 
   static final List<GetPage> pages = [
     GetPage(
@@ -77,6 +80,13 @@ class Routes{
       page: () => BlocProvider(
         create: (_) => ResetPasswordCubit(resetPswRepository, validator),
         child: ResetPasswordScreen(),
+      ),
+    ),
+    GetPage(
+      name: fullScreenImage,
+      page: () => BlocProvider(
+        create: (_) => FullScreenImageCubit()..onInit(Get.arguments),
+        child: FullScreenImageScreen(),
       ),
     ),
   ];

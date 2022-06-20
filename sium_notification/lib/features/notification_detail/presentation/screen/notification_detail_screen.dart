@@ -63,6 +63,7 @@ class NotificationDetailScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           child: NotificationDetailImage(
                             imageUrl: state.detail?.notificationImageUrl,
+                            onImageTap: () => context.read<NotificationDetailCubit>().goToFullScreenImage(state.detail?.notificationImageUrl),
                           )),
                     if (context
                             .read<NotificationDetailCubit>()

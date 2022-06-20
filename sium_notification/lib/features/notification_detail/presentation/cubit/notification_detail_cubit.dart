@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sium_notification/core/model/comments_model.dart';
 import 'package:sium_notification/core/model/notification_model.dart';
 import 'package:sium_notification/core/state_management/base_cubit.dart';
+import 'package:sium_notification/utils/routes.dart';
 
 import '../../repository/notification_detail_repository.dart';
 
@@ -67,5 +69,9 @@ class NotificationDetailCubit extends BaseCubit<NotificationDetailState> {
     }else{
       return null;
     }
+  }
+
+  void goToFullScreenImage(String? notificationImageUrl) {
+    Get.toNamed(Routes.fullScreenImage, arguments: notificationImageUrl);
   }
 }
